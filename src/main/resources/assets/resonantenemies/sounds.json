@@ -1,0 +1,42 @@
+{
+  "shambler_ambient": {
+    "subtitle": "subtitles.resonantenemies.shambler.ambient",
+    "sounds": [
+      "resonantenemies:shambler_ambient_1",
+      "resonantenemies:shambler_ambient_2",
+      "resonantenemies:shambler_ambient_3"
+    ]
+  },
+    "shambler_hurt": {
+      "subtitle": "subtitles.resonantenemies.shambler.hurt",
+      "sounds": [
+        "resonantenemies:shambler_hurt_1",
+        "resonantenemies:shambler_hurt_2",
+        "resonantenemies:shambler_hurt_3",
+        "resonantenemies:shambler_hurt_4"
+      ]
+    },
+  "shambler_attack": {
+    "subtitle": "subtitles.resonantenemies.shambler.attack",
+    "sounds": [
+      "resonantenemies:shambler_attack_1",
+      "resonantenemies:shambler_attack_2",
+      "resonantenemies:shambler_attack_3",
+      "resonantenemies:shambler_attack_4"
+    ]
+  },
+  "shambler_death": {
+    "subtitle": "subtitles.resonantenemies.shambler.death",
+    "sounds": [
+      "resonantenemies:shambler_death"
+    ]
+  },
+  "music_disc_eye_of_three": {
+    "sounds": [
+      {
+        "name" : "resonantenemies:music_disc_eye_of_three",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+
+  "itemGroup.resonantenemies.resonance": "Resonant Enemies",
+
+  "item.resonantenemies.shambler_spawn_egg": "Shambler Spawn Egg",
+  "item.resonantenemies.purple_tophat": "Purple Tophat",
+  "item.resonantenemies.black_tophat": "Black Tophat",
+
+  "entity.resonantenemies.shambler": "Shambler",
+
+  "subtitles.resonantenemies.shambler.ambient": "Shambler Groan",
+  "subtitles.resonantenemies.shambler.hurt": "Shambler Hurt",
+  "subtitles.resonantenemies.shambler.attack": "Shambler Attack",
+  "subtitles.resonantenemies.shambler.death": "Shambler Death",
+
+  "item.resonantenemies.music_disc_eye_of_three": "Music Disc",
+  "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three"
+}
