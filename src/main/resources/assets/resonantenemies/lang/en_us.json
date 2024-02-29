@@ -14,5 +14,8 @@
   "subtitles.resonantenemies.shambler.death": "Shambler Death",
 
   "item.resonantenemies.music_disc_eye_of_three": "Music Disc",
-  "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three"
+  "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three",
+
+  "effect.resonantenemies.enshrouded": "Enshrouded"
+
 }

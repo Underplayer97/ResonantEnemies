@@ -2,6 +2,7 @@ package net.underplayer97.ResonantEnemies;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.registry.Registry;
+import net.underplayer97.ResonantEnemies.effect.ModEffects;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.sound.ModSounds;
 import net.underplayer97.ResonantEnemies.util.ModRegistries;
@@ -26,6 +27,8 @@ public class ResonantMain implements ModInitializer {
 		GeckoLib.initialize();
 
 		ModSounds.initBecauseThingDontWannaWork();
+
+		ModEffects.registerEffects();
 
 	}
 }
