@@ -9,6 +9,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.ResonantMain;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
+import net.underplayer97.ResonantEnemies.item.custom.AegisLegsArmorItem;
 import net.underplayer97.ResonantEnemies.item.custom.BlackHatArmorItem;
 import net.underplayer97.ResonantEnemies.item.custom.PurpleHatArmorItem;
 import net.underplayer97.ResonantEnemies.item.custom.ModMusicDiscItem;
@@ -32,6 +33,10 @@ public class ModItems {
 
     public static final Item BLACK_TOPHAT = registerItem("black_tophat",
             new BlackHatArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.HEAD,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE)));
+
+    public static final Item AEGIS_LEGS = registerItem("aegis_legs",
+            new AegisLegsArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));
 
 

@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
 import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
+import net.underplayer97.ResonantEnemies.entity.client.armor.AegisLegsArmorRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.BlackHatArmorRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.PurpleHatArmorRenderer;
 import net.underplayer97.ResonantEnemies.item.ModItems;
@@ -17,6 +18,7 @@ public class ResonantClientMain implements ClientModInitializer {
 
         GeoArmorRenderer.registerArmorRenderer(new PurpleHatArmorRenderer(), ModItems.PURPLE_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new BlackHatArmorRenderer(), ModItems.BLACK_TOPHAT);
+        GeoArmorRenderer.registerArmorRenderer(new AegisLegsArmorRenderer(), ModItems.AEGIS_LEGS);
 
 
     }
