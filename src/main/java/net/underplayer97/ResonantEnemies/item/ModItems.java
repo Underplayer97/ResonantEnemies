@@ -22,6 +22,10 @@ public class ModItems {
             new SpawnEggItem(ModEntities.SHAMBLER,44975, 0x65000b,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
 
+    public static final Item CROW_SPAWN_EGG = registerItem("crow_spawn_egg",
+            new SpawnEggItem(ModEntities.CROW,0x090909, 0xfcd720,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
+
     public static final Item MUSIC_DISC_EYE_OF_THREE = registerItem("music_disc_eye_of_three",
             new ModMusicDiscItem(7, ModSounds.MUSIC_DISC_EYE_OF_THREE,
                     new FabricItemSettings().rarity(Rarity.RARE).group(ModItemGroup.RESONANCE).maxCount(1)));
