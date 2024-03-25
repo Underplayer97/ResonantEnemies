@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -66,6 +67,16 @@ public class CrowEntity extends HostileEntity implements IAnimatable {
             return super.getSquaredMaxAttackDistance(entity);
         }
 
+    }
+
+    @Override
+    public void tickMovement() {
+        if (this.world.isClient) {
+            for (int i = 0; i < 1; ++i) {
+                this.world.addParticle(ParticleTypes.PORTAL, this.getParticleX(0.5), this.getRandomBodyY() - 0.25, this.getParticleZ(0.5), 0.0, 0.0, 0.0);
+            }
+        }
+        super.tickMovement();
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
