@@ -2,7 +2,9 @@ package net.underplayer97.ResonantEnemies;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.FogShape;
@@ -14,6 +16,8 @@ import net.underplayer97.ResonantEnemies.entity.client.armor.AegisLegsArmorRende
 import net.underplayer97.ResonantEnemies.entity.client.armor.BlackHatArmorRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.PurpleHatArmorRenderer;
 import net.underplayer97.ResonantEnemies.item.ModItems;
+import net.underplayer97.ResonantEnemies.particle.ModParticles;
+import net.underplayer97.ResonantEnemies.particle.custom.EnshroudedParticle;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class ResonantClientMain implements ClientModInitializer {
@@ -27,7 +31,7 @@ public class ResonantClientMain implements ClientModInitializer {
         GeoArmorRenderer.registerArmorRenderer(new BlackHatArmorRenderer(), ModItems.BLACK_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new AegisLegsArmorRenderer(), ModItems.AEGIS_LEGS);
 
-
+        ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
 
     }
 }

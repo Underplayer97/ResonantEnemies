@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.effect.ModEffects;
 import net.underplayer97.ResonantEnemies.item.ModItems;
+import net.underplayer97.ResonantEnemies.particle.ModParticles;
 import net.underplayer97.ResonantEnemies.sound.ModSounds;
 import net.underplayer97.ResonantEnemies.util.ModRegistries;
 import org.slf4j.Logger;
@@ -29,6 +30,8 @@ public class ResonantMain implements ModInitializer {
 		ModSounds.initBecauseThingDontWannaWork();
 
 		ModEffects.registerEffects();
+
+		ModParticles.registerParticle();
 
 	}
 }
