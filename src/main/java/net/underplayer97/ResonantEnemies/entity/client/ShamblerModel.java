@@ -11,7 +11,7 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 public class ShamblerModel extends AnimatedGeoModel<ShamblerEntity> {
     @Override
     public Identifier getModelLocation(ShamblerEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/shambler.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/entity/shambler.geo.json");
     }
 
     @Override

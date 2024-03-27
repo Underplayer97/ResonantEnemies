@@ -9,7 +9,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class AegisLegsArmorModel extends AnimatedGeoModel<AegisLegsArmorItem> {
     @Override
     public Identifier getModelLocation(AegisLegsArmorItem object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/aegis_legs.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/armor/aegis_legs.geo.json");
     }
 
     @Override

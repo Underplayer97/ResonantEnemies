@@ -11,7 +11,7 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 public class CrowModel extends AnimatedGeoModel<CrowEntity> {
     @Override
     public Identifier getModelLocation(CrowEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/crow.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/entity/crow.geo.json");
     }
 
     @Override

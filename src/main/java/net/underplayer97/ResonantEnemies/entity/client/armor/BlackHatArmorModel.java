@@ -9,7 +9,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class BlackHatArmorModel extends AnimatedGeoModel<BlackHatArmorItem> {
     @Override
     public Identifier getModelLocation(BlackHatArmorItem object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/tophat.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/armor/tophat.geo.json");
     }
 
     @Override

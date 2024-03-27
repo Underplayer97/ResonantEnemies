@@ -50,6 +50,12 @@
     "sounds": [
       "resonantenemies:crow_death"
     ]
+  },
+  "crow_hola": {
+    "subtitle": "subtitles.resonantenemies.crow.hola",
+    "sounds": [
+      "resonantenemies:crow_hola"
+    ]
   }
 
 

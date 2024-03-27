@@ -8,13 +8,10 @@ import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.FogShape;
-import net.underplayer97.ResonantEnemies.client.renderer.ModBackgroundRenderer;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
 import net.underplayer97.ResonantEnemies.entity.client.CrowRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
-import net.underplayer97.ResonantEnemies.entity.client.armor.AegisLegsArmorRenderer;
-import net.underplayer97.ResonantEnemies.entity.client.armor.BlackHatArmorRenderer;
-import net.underplayer97.ResonantEnemies.entity.client.armor.PurpleHatArmorRenderer;
+import net.underplayer97.ResonantEnemies.entity.client.armor.*;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
 import net.underplayer97.ResonantEnemies.particle.custom.EnshroudedParticle;
@@ -30,6 +27,7 @@ public class ResonantClientMain implements ClientModInitializer {
         GeoArmorRenderer.registerArmorRenderer(new PurpleHatArmorRenderer(), ModItems.PURPLE_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new BlackHatArmorRenderer(), ModItems.BLACK_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new AegisLegsArmorRenderer(), ModItems.AEGIS_LEGS);
+        GeoArmorRenderer.registerArmorRenderer(new CrowArmorRenderer(), ModItems.CROW_ARMOR);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
 

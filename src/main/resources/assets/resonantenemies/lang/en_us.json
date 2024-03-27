@@ -8,6 +8,7 @@
   "item.resonantenemies.purple_tophat": "Purple Tophat",
   "item.resonantenemies.black_tophat": "Black Tophat",
   "item.resonantenemies.aegis_legs": "Aegis' Legs",
+  "item.resonantenemies.crow_armor": "Crow's Camouflage",
 
   "entity.resonantenemies.shambler": "Shambler",
   "entity.resonantenemies.crow": "Crow",
@@ -22,6 +23,8 @@
   "subtitles.resonantenemies.crow.hurt": "Crow Hurt",
   "subtitles.resonantenemies.crow.attack": "Crow Attack",
   "subtitles.resonantenemies.crow.death": "Crow Death",
+  "subtitles.resonantenemies.crow.hola": ":troll:",
+
 
   "item.resonantenemies.music_disc_eye_of_three": "Music Disc",
   "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three",
