@@ -20,8 +20,10 @@ import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -48,14 +50,8 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.UUID;
 
-public class CrowEntity extends TameableEntity implements IAnimatable, Angerable {
+public class CrowEntity extends TameableEntity implements IAnimatable {
 
-    private static final Ingredient BREEDING_INGREDENT = Ingredient.ofItems(Items.PUMPKIN_SEEDS);
-    private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(CrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
-    @Nullable
-    private UUID angryAt;
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public CrowEntity(EntityType<? extends TameableEntity> entityType, World world) {
@@ -64,10 +60,16 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
         this.experiencePoints = 7;
     }
 
+    @Nullable
+    @Override
+    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+        return null;
+    }
+
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(ANGER_TIME, 0);
+        this.dataTracker.startTracking(SITTING, false);
     }
 
 
@@ -89,16 +91,10 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(8, new LookAroundGoal(this));
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(0, new SitGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
-        this.targetSelector.add(3, new RevengeGoal(this, new Class[0]).setGroupRevenge(new Class[0]));
-        this.targetSelector.add(4, new ActiveTargetGoal<PlayerEntity>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
-
-
-        this.goalSelector.add(6, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
-        this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
-
     }
 
     class AttackGoal extends MeleeAttackGoal {
@@ -113,27 +109,6 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
 
     }
 
-    @Nullable
-    @Override
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
-    }
-
-    @Override
-    public boolean canAttackWithOwner(LivingEntity target, LivingEntity owner) {
-        if (target instanceof CrowEntity) {
-            CrowEntity crowEntity = (CrowEntity) target;
-            return !crowEntity.isTamed() || crowEntity.getOwner() != owner;
-        }
-        if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity)owner).shouldDamagePlayer((PlayerEntity)target)) {
-            return false;
-        }
-        if (target instanceof HorseBaseEntity && ((HorseBaseEntity)target).isTame()) {
-            return false;
-        }
-        return !(target instanceof TameableEntity) || !((TameableEntity)target).isTamed();
-    }
-
     @Override
     public void tickMovement() {
         if (this.world.isClient) {
@@ -143,12 +118,6 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
         }
         super.tickMovement();
     }
-
-    @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return BREEDING_INGREDENT.test(stack);
-    }
-
 
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
@@ -173,83 +142,6 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
     }
 
     @Override
-    public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getStackInHand(hand);
-        Item item = itemStack.getItem();
-        if (this.world.isClient) {
-            boolean bl = this.isOwner(player) || this.isTamed() || itemStack.isOf(Items.PUMPKIN_SEEDS) && !this.isTamed();
-            return bl ? ActionResult.CONSUME : ActionResult.PASS;
-        }
-        if (this.isTamed()) {
-            if (this.isBreedingItem(itemStack) && this.getHealth() < this.getMaxHealth()) {
-                if (!player.getAbilities().creativeMode) {
-                    itemStack.decrement(1);
-                }
-                this.heal(item.getFoodComponent().getHunger());
-                this.emitGameEvent(GameEvent.MOB_INTERACT, this.getCameraBlockPos());
-                return ActionResult.SUCCESS;
-            }
-            ActionResult actionResult = super.interactMob(player, hand);
-            if (actionResult.isAccepted() && !this.isBaby() || !this.isOwner(player)) return actionResult;
-            this.setSitting(!this.isSitting());
-            this.jumping = false;
-            this.navigation.stop();
-            this.setTarget(null);
-            return ActionResult.SUCCESS;
-        }
-        if (!player.getAbilities().creativeMode) {
-            itemStack.decrement(1);
-        }
-        if (this.random.nextInt(3) == 0) {
-            this.setOwner(player);
-            this.navigation.stop();
-            this.setTarget(null);
-            this.setSitting(true);
-            this.world.sendEntityStatus(this, (byte)7);
-            return ActionResult.SUCCESS;
-        } else {
-            this.world.sendEntityStatus(this, (byte)6);
-        }
-        return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public int getAngerTime() {
-        return this.dataTracker.get(ANGER_TIME);
-    }
-
-    @Override
-    public void setAngerTime(int angerTime) {
-        this.dataTracker.set(ANGER_TIME, angerTime);
-    }
-
-    @Override
-    public void chooseRandomAngerTime() {
-        this.setAngerTime(ANGER_TIME_RANGE.get(this.random));
-    }
-
-    @Override
-    @Nullable
-    public UUID getAngryAt() {
-        return this.angryAt;
-    }
-
-    @Override
-    public void setAngryAt(@Nullable UUID angryAt) {
-        this.angryAt = angryAt;
-    }
-
-    public void start() {
-        CrowEntity.this.setTarget(null);
-    }
-
-    @Override
-    public void tick() {
-        CrowEntity.this.setTarget(null);
-        super.tick();
-    }
-
-    @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController(this, "controller",
                 0, this::predicate));
@@ -266,7 +158,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.SHAMBLER_AMBIENT;
+        return ModSounds.CROW_AMBIENT;
     }
 
     @Override
@@ -276,7 +168,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSounds.SHAMBLER_DEATH;
+        return ModSounds.CROW_DEATH;
     }
 
     @Override
@@ -284,6 +176,82 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Angerable
         this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15f, 1.0f);
     }
 
+    private static final TrackedData<Boolean> SITTING =
+            DataTracker.registerData(CrowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getStackInHand(hand);
+        Item item = itemstack.getItem();
+
+        Item itemForTaming = Items.PUMPKIN_SEEDS;
+
+        if (item == itemForTaming && !isTamed()) {
+            if (this.world.isClient()) {
+                return ActionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().creativeMode) {
+                    itemstack.decrement(1);
+                }
+
+                if (!this.world.isClient()) {
+                    super.setOwner(player);
+                    this.navigation.recalculatePath();
+                    this.setTarget(null);
+                    this.world.sendEntityStatus(this, (byte)7);
+                    setSit(true);
+                }
+
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        if(isTamed() && !this.world.isClient() && hand == Hand.MAIN_HAND) {
+            setSit(!isSitting());
+            return ActionResult.SUCCESS;
+        }
+
+        if (itemstack.getItem() == itemForTaming) {
+            return ActionResult.PASS;
+        }
+
+        return super.interactMob(player, hand);
+    }
+
+    public void setSit(boolean sitting) {
+        this.dataTracker.set(SITTING, sitting);
+        super.setSitting(sitting);
+    }
+
+    public boolean isSitting() {
+        return this.dataTracker.get(SITTING);
+    }
+
+    @Override
+    public void setTamed(boolean tamed) {
+        super.setTamed(tamed);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("isSitting", this.dataTracker.get(SITTING));
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.dataTracker.set(SITTING, nbt.getBoolean("isSitting"));
+    }
+
+    @Override
+    public AbstractTeam getScoreboardTeam() {
+        return super.getScoreboardTeam();
+    }
+
+    public boolean canBeLeashedBy(PlayerEntity player) {
+        return false;
+    }
 
 
 

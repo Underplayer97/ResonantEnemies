@@ -17,6 +17,9 @@ public class ModSounds {
 
     public static SoundEvent MUSIC_DISC_EYE_OF_THREE = registerSoundEvent("music_disc_eye_of_three"); //Made by HandfulJake
 
+    public static SoundEvent CROW_AMBIENT = registerSoundEvent("crow_ambient");
+    public static SoundEvent CROW_DEATH = registerSoundEvent("crow_death");
+
     private static SoundEvent registerSoundEvent(String name) {
         Identifier id = new Identifier(ResonantMain.MOD_ID, name);
         return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));

@@ -18,6 +18,11 @@
   "subtitles.resonantenemies.shambler.attack": "Shambler Attack",
   "subtitles.resonantenemies.shambler.death": "Shambler Death",
 
+  "subtitles.resonantenemies.crow.ambient": "Crow Croak",
+  "subtitles.resonantenemies.crow.hurt": "Crow Hurt",
+  "subtitles.resonantenemies.crow.attack": "Crow Attack",
+  "subtitles.resonantenemies.crow.death": "Crow Death",
+
   "item.resonantenemies.music_disc_eye_of_three": "Music Disc",
   "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three",
 

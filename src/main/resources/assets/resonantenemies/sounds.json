@@ -38,5 +38,19 @@
         "stream": true
       }
     ]
+  },
+  "crow_ambient": {
+    "subtitle": "subtitles.resonantenemies.crow.ambient",
+    "sounds": [
+        "resonantenemies:crow_ambient"
+    ]
+  },
+  "crow_death": {
+    "subtitle": "subtitles.resonantenemies.crow.death",
+    "sounds": [
+      "resonantenemies:crow_death"
+    ]
   }
+
+
 }
