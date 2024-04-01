@@ -96,7 +96,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.4f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0f)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 8.0f)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 3.0f)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6f);
 
     }
@@ -182,15 +182,18 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     }
 
 
+
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0 && this.isInAir()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.walk", true)); //Not needed
             return PlayState.CONTINUE;
         }
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.idle", true)); //Not needed
         return PlayState.CONTINUE;
     }
+
+
 
     private PlayState attackPredicate(AnimationEvent event) {
         if(this.handSwinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
@@ -204,7 +207,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     }
 
     private PlayState flyPredicate (AnimationEvent event) {
-        if(!this.isInAir()) {
+        if(!this.isInAir() && this.onGround) {
             event.getController().markNeedsReload();
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.fly", true));
             return PlayState.CONTINUE;
@@ -214,14 +217,33 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
 
     }
 
+    private PlayState sittingController(AnimationEvent event) {
+        Vec3d vec3d = this.getVelocity();
+        if(this.isSitting()) {
+            event.getController().markNeedsReload();
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.sitting", false));
+            return PlayState.CONTINUE;
+        } else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.walk", true)); //Not needed
+            return PlayState.CONTINUE;
+        } else if (this.airStrafingSpeed !=1) {
+            event.getController().markNeedsReload();
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.fly", true));
+            return PlayState.CONTINUE;
+        }
+        return PlayState.CONTINUE;
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController(this, "controller",
-                0, this::predicate));
+        //animationData.addAnimationController(new AnimationController(this, "controller",
+        //        0, this::predicate));
         animationData.addAnimationController(new AnimationController(this, "AttackController",
                 0, this::attackPredicate));
-        animationData.addAnimationController(new AnimationController(this, "flyController",
-                0, this::flyPredicate));
+        //animationData.addAnimationController(new AnimationController(this, "flyController",
+        //        0, this::flyPredicate));
+        animationData.addAnimationController(new AnimationController(this, "sittingController",
+                0, this::sittingController));
     }
 
 
@@ -251,7 +273,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.SHAMBLER_HURT;
+        return ModSounds.CROW_HURT;
     }
 
     @Override

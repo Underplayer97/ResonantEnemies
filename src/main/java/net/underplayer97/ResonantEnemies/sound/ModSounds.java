@@ -18,7 +18,10 @@ public class ModSounds {
     public static SoundEvent MUSIC_DISC_EYE_OF_THREE = registerSoundEvent("music_disc_eye_of_three"); //Made by HandfulJake
 
     public static SoundEvent CROW_AMBIENT = registerSoundEvent("crow_ambient");
+
     public static SoundEvent CROW_DEATH = registerSoundEvent("crow_death");
+
+    public static SoundEvent CROW_HURT = registerSoundEvent("crow_hurt");
 
     public static SoundEvent CROW_HOLA = registerSoundEvent("crow_hola");
 

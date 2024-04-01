@@ -48,7 +48,19 @@
   "crow_death": {
     "subtitle": "subtitles.resonantenemies.crow.death",
     "sounds": [
-      "resonantenemies:crow_death"
+      {
+        "name": "resonantenemies:crow_death",
+        "volume": 2
+      }
+    ]
+  },
+  "crow_hurt": {
+    "subtitle": "subtitles.resonantenemies.crow.hurt",
+    "sounds": [
+      {
+        "name": "resonantenemies:crow_hurt",
+        "volume": 2
+      }
     ]
   },
   "crow_hola": {
