@@ -111,12 +111,15 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
 
         this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
+
     }
 
     @Override
     public boolean isInAir() {
         return !this.onGround;
     }
+
+
 
     class AttackGoal extends MeleeAttackGoal {
         public AttackGoal(CrowEntity crow) {
@@ -218,17 +221,15 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     }
 
     private PlayState sittingController(AnimationEvent event) {
-        Vec3d vec3d = this.getVelocity();
         if(this.isSitting()) {
             event.getController().markNeedsReload();
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.sitting", false));
             return PlayState.CONTINUE;
-        } else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.walk", true)); //Not needed
-            return PlayState.CONTINUE;
-        } else if (this.airStrafingSpeed !=1) {
-            event.getController().markNeedsReload();
+        } else if (!this.onGround) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.fly", true));
+            return PlayState.CONTINUE;
+        } else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0 && this.onGround) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.walk", true)); //Not needed
             return PlayState.CONTINUE;
         }
         return PlayState.CONTINUE;

@@ -6,9 +6,9 @@
   "mixins": [
   ],
   "client": [
+    "BackgroundRendererMixin",
     "ResonantMixins",
-    "BackgroundRendererMixin"
-    //"WorldRendererMixin"
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
