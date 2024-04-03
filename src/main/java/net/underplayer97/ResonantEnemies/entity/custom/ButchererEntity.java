@@ -25,11 +25,11 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class WendigoEntity extends HostileEntity implements IAnimatable {
+public class ButchererEntity extends HostileEntity implements IAnimatable {
 
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
-    protected WendigoEntity(EntityType<? extends HostileEntity> entityType, World world) {
+    protected ButchererEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -59,8 +59,8 @@ public class WendigoEntity extends HostileEntity implements IAnimatable {
     }
 
     class AttackGoal extends MeleeAttackGoal {
-        public AttackGoal(WendigoEntity wendigo) {
-            super(wendigo, 1.0, false);
+        public AttackGoal(ButchererEntity butcherer) {
+            super(butcherer, 1.0, false);
         }
 
         @Override
