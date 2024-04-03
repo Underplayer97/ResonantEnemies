@@ -25,15 +25,7 @@ public class EnshroudedEffect extends StatusEffect {
     }
 
     @Override
-    @Environment(value=EnvType.CLIENT)
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-
-        //BackgroundRenderer.applyFog(new Camera(), BackgroundRenderer.FogType.FOG_TERRAIN, 10, true);
-        //BackgroundRenderer.setFogBlack();
-        //RenderSystem.setShaderFogStart(0.0f);
-        //RenderSystem.setShaderFogEnd(10.0f);
-        //RenderSystem.setShaderFogShape(FogShape.CYLINDER);
-
 
         super.applyUpdateEffect(entity, amplifier);
     }

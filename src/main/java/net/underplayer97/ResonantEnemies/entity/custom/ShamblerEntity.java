@@ -80,6 +80,7 @@ public class ShamblerEntity extends HostileEntity implements IAnimatable {
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(4, new MoveThroughVillageGoal(this, 1.0, true, 4, this::canBreakDoors));
 
+
         this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
         this.targetSelector.add(2, new ActiveTargetGoal<VillagerEntity>((MobEntity) this, VillagerEntity.class, true));
         this.targetSelector.add(2,new ActiveTargetGoal<PillagerEntity>((MobEntity) this, PillagerEntity.class, true));

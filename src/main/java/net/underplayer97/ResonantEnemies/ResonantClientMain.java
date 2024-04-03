@@ -14,6 +14,7 @@ import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.*;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
+import net.underplayer97.ResonantEnemies.particle.custom.CoatedParticle;
 import net.underplayer97.ResonantEnemies.particle.custom.EnshroudedParticle;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
@@ -30,6 +31,7 @@ public class ResonantClientMain implements ClientModInitializer {
         GeoArmorRenderer.registerArmorRenderer(new CrowArmorRenderer(), ModItems.CROW_ARMOR);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.COATED_PARTICLE, CoatedParticle.Factory::new);
 
     }
 }
