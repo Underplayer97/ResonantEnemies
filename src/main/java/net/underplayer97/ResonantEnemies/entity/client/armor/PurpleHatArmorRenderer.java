@@ -9,13 +9,6 @@ public class PurpleHatArmorRenderer extends GeoArmorRenderer<PurpleHatArmorItem>
         super(new PurpleHatArmorModel());
 
         this.headBone = "armorHead";
-        this.bodyBone = "armorBody";
-        this.rightArmBone = "armorRightArm";
-        this.leftArmBone = "armorLeftArm";
-        this.rightLegBone = "armorRightLeg";
-        this.leftLegBone = "armorLeftLeg";
-        this.rightBootBone = "armorRightBoot";
-        this.leftBootBone = "armorLeftBoot";
 
 
     }

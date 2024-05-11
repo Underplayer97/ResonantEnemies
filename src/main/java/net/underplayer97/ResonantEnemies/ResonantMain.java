@@ -1,12 +1,12 @@
 package net.underplayer97.ResonantEnemies;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.effect.ModEffects;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
 import net.underplayer97.ResonantEnemies.sound.ModSounds;
 import net.underplayer97.ResonantEnemies.util.ModRegistries;
+import net.underplayer97.ResonantEnemies.world.gen.ModWorldGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.bernie.geckolib3.GeckoLib;
@@ -22,16 +22,14 @@ public class ResonantMain implements ModInitializer {
 		LOGGER.info("Resonant Enemies: ONLINE!");
 
 		ModRegistries.registerModStuffs();
-
 		ModItems.registerModItems();
+		ModSounds.registerModSounds();
+		ModEffects.registerEffects();
+		ModParticles.registerParticle();
+
+		ModWorldGen.generateModWorldGen();
 
 		GeckoLib.initialize();
-
-		ModSounds.initBecauseThingDontWannaWork();
-
-		ModEffects.registerEffects();
-
-		ModParticles.registerParticle();
 
 	}
 }

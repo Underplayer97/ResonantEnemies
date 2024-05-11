@@ -9,14 +9,7 @@ public class AegisLegsArmorRenderer extends GeoArmorRenderer<AegisLegsArmorItem>
     public AegisLegsArmorRenderer() {
         super(new AegisLegsArmorModel());
 
-        this.headBone = "armorHead";
         this.bodyBone = "armorBody";
-        this.rightArmBone = "armorRightArm";
-        this.leftArmBone = "armorLeftArm";
-        this.rightLegBone = "armorRightLeg";
-        this.leftLegBone = "armorLeftLeg";
-        this.rightBootBone = "armorRightBoot";
-        this.leftBootBone = "armorLeftBoot";
 
 
     }

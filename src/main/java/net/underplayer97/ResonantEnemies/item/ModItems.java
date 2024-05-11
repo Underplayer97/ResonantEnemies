@@ -40,6 +40,10 @@ public class ModItems {
             new AegisLegsArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));
 
+    public static final Item WOUNDED_AEGIS_LEGS = registerItem("wounded_aegis_legs",
+            new WoundedAegisLegsArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.CHEST,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE)));
+
     public static final Item CROW_ARMOR = registerItem("crow_armor",
             new CrowArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));

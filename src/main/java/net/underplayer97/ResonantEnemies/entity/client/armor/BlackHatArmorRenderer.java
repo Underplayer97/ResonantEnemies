@@ -10,13 +10,6 @@ public class BlackHatArmorRenderer extends GeoArmorRenderer<BlackHatArmorItem> {
         super(new BlackHatArmorModel());
 
         this.headBone = "armorHead";
-        this.bodyBone = "armorBody";
-        this.rightArmBone = "armorRightArm";
-        this.leftArmBone = "armorLeftArm";
-        this.rightLegBone = "armorRightLeg";
-        this.leftLegBone = "armorLeftLeg";
-        this.rightBootBone = "armorRightBoot";
-        this.leftBootBone = "armorLeftBoot";
 
 
     }

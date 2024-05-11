@@ -4,7 +4,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.ResonantMain;
-import net.minecraft.sound.SoundEvents;
 
 public class ModSounds {
 
@@ -30,7 +29,7 @@ public class ModSounds {
         return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));
     }
 
-    public static void initBecauseThingDontWannaWork() {
+    public static void registerModSounds() {
 
     }
 

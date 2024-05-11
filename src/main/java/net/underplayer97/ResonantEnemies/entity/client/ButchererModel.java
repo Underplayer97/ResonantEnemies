@@ -12,17 +12,17 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 public class ButchererModel extends AnimatedGeoModel<ButchererEntity> {
     @Override
     public Identifier getModelLocation(ButchererEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/entity/crow.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/entity/butcher.geo.json");
     }
 
     @Override
     public Identifier getTextureLocation(ButchererEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "textures/entity/crow/crow.png");
+        return new Identifier(ResonantMain.MOD_ID, "textures/entity/butcher/butcher.png");
     }
 
     @Override
     public Identifier getAnimationFileLocation(ButchererEntity animatable) {
-        return new Identifier(ResonantMain.MOD_ID, "animations/crow.animation.json");
+        return new Identifier(ResonantMain.MOD_ID, "animations/butcher.animation.json");
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
