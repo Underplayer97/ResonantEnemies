@@ -30,6 +30,8 @@ public class ResonantClientMain implements ClientModInitializer {
         GeoArmorRenderer.registerArmorRenderer(new AegisLegsArmorRenderer(), ModItems.AEGIS_LEGS);
         GeoArmorRenderer.registerArmorRenderer(new WoundedAegisLegsArmorRenderer(), ModItems.WOUNDED_AEGIS_LEGS);
         GeoArmorRenderer.registerArmorRenderer(new CrowArmorRenderer(), ModItems.CROW_ARMOR);
+        GeoArmorRenderer.registerArmorRenderer(new NimhsyEarsArmorRenderer(), ModItems.NIMHSY_EARS);
+
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COATED_PARTICLE, CoatedParticle.Factory::new);

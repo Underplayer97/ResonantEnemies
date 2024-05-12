@@ -44,6 +44,10 @@ public class ModItems {
             new WoundedAegisLegsArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));
 
+    public static final Item NIMHSY_EARS = registerItem("nimhsy_ears",
+            new NimhsyEarsArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.HEAD,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE)));
+
     public static final Item CROW_ARMOR = registerItem("crow_armor",
             new CrowArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));
