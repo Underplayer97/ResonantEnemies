@@ -22,7 +22,11 @@ public class CrowRenderer extends GeoEntityRenderer<CrowEntity> {
 
     @Override
     public Identifier getTextureLocation(CrowEntity instance) {
-        return new Identifier(ResonantMain.MOD_ID, "textures/entity/crow/crow.png");
+        return new Identifier(ResonantMain.MOD_ID, "textures/models/armor/playercrow.png");
     }
-    
+
+    @Override
+    protected float getSwingMotionAnimThreshold() {
+        return 0.01f;
+    }
 }

@@ -53,23 +53,30 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 
-public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer {
+public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer, Angerable {
 
-
+    private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(WolfEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final Predicate<LivingEntity> FOLLOW_TAMED_PREDICATE = entity -> {
+        EntityType<?> entityType = entity.getType();
+        return entityType == EntityType.SHEEP || entityType == EntityType.RABBIT || entityType == EntityType.FOX;
+    };
     public float flapProgress;
     public float maxWingDeviation;
     public float prevMaxWingDeviation;
     public float prevFlapProgress;
     private float flapSpeed = 1.0f;
     private float field_28640 = 1.0f;
+    private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
+
 
 
 
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public CrowEntity(EntityType<? extends TameableEntity> entityType, World world) {
-        super(entityType, world);
+        super((EntityType<? extends TameableEntity>) entityType, world);
         this.setTamed(false);
         this.moveControl = new FlightMoveControl(this, 10, false);
         this.experiencePoints = 7;
@@ -85,6 +92,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(SITTING, false);
+        this.dataTracker.startTracking(ANGER_TIME, 0);
     }
 
 
@@ -103,15 +111,22 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new AttackGoal(this));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        this.goalSelector.add(8, new LookAroundGoal(this));
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(0, new SitGoal(this));
+        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(2, new SitGoal(this));
+        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
+        this.goalSelector.add(6, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+        this.goalSelector.add(10, new LookAroundGoal(this));
 
+        this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
+        this.targetSelector.add(3, new RevengeGoal(this, new Class[0]).setGroupRevenge(new Class[0]));
+        this.targetSelector.add(4, new ActiveTargetGoal<PlayerEntity>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(8, new UniversalAngerGoal<CrowEntity>(this, true));
+
 
     }
 
@@ -120,6 +135,31 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
         return !this.onGround;
     }
 
+    @Override
+    public int getAngerTime() {
+        return 0;
+    }
+
+    @Override
+    public void setAngerTime(int angerTime) {
+
+    }
+
+    @Nullable
+    @Override
+    public UUID getAngryAt() {
+        return null;
+    }
+
+    @Override
+    public void setAngryAt(@Nullable UUID angryAt) {
+
+    }
+
+    @Override
+    public void chooseRandomAngerTime() {
+
+    }
 
 
     class AttackGoal extends MeleeAttackGoal {
@@ -210,19 +250,10 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
         return PlayState.CONTINUE;
     }
 
-    private PlayState flyPredicate (AnimationEvent event) {
-        if(!this.isInAir() && this.onGround) {
-            event.getController().markNeedsReload();
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.fly", true));
-            return PlayState.CONTINUE;
-        }
 
-        return PlayState.CONTINUE;
-
-    }
 
     private PlayState sittingController(AnimationEvent event) {
-        if(this.isSitting()) {
+        if(this.isSitting() && this.onGround) {
             event.getController().markNeedsReload();
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crow.sitting", false));
             return PlayState.CONTINUE;
@@ -348,6 +379,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("isSitting", this.dataTracker.get(SITTING));
+        this.writeAngerToNbt(nbt);
     }
 
     @Override
@@ -365,6 +397,22 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
         return false;
     }
 
-
+    @Override
+    public boolean canAttackWithOwner(LivingEntity target, LivingEntity owner) {
+        if (target instanceof CreeperEntity || target instanceof GhastEntity) {
+            return false;
+        }
+        if (target instanceof WolfEntity) {
+            WolfEntity wolfEntity = (WolfEntity)target;
+            return !wolfEntity.isTamed() || wolfEntity.getOwner() != owner;
+        }
+        if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity)owner).shouldDamagePlayer((PlayerEntity)target)) {
+            return false;
+        }
+        if (target instanceof HorseBaseEntity && ((HorseBaseEntity)target).isTame()) {
+            return false;
+        }
+        return !(target instanceof TameableEntity) || !((TameableEntity)target).isTamed();
+    }
 
 }
