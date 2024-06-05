@@ -11,10 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.bernie.geckolib3.GeckoLib;
 
+import java.util.Random;
+import java.util.random.RandomGenerator;
+
 public class ResonantMain implements ModInitializer {
 
 	public static final String MOD_ID = "resonantenemies";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final Random RANDOM = new Random();
 
 	@Override
 	public void onInitialize() {

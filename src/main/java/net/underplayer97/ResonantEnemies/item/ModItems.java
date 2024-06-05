@@ -52,6 +52,9 @@ public class ModItems {
             new CrowArmorItem(ModArmorMaterials.DECORATIVE, EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE)));
 
+    public static final Item SCREENSHAKE_ITEM = registerItem("screenshake_item",
+            new ScreenshakeTestItem(new FabricItemSettings().group(ModItemGroup.RESONANCE)));
+
 
 
     private static Item registerItem(String name, Item item) {

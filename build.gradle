@@ -60,6 +60,10 @@ java {
 	withSourcesJar()
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/resonantenemies.accesswidener")
+}
+
 jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}

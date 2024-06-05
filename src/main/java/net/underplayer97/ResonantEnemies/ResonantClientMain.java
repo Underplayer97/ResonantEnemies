@@ -2,6 +2,7 @@ package net.underplayer97.ResonantEnemies;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.particle.ParticleFactory;
@@ -13,6 +14,8 @@ import net.underplayer97.ResonantEnemies.entity.client.CrowRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.*;
 import net.underplayer97.ResonantEnemies.item.ModItems;
+import net.underplayer97.ResonantEnemies.network.screenshake.PositionedScreenshakePacket;
+import net.underplayer97.ResonantEnemies.network.screenshake.ScreenshakePacket;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
 import net.underplayer97.ResonantEnemies.particle.custom.CoatedParticle;
 import net.underplayer97.ResonantEnemies.particle.custom.EnshroudedParticle;
@@ -35,6 +38,9 @@ public class ResonantClientMain implements ClientModInitializer {
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COATED_PARTICLE, CoatedParticle.Factory::new);
+
+        ClientPlayNetworking.registerGlobalReceiver(ScreenshakePacket.ID, (client, handler, buf, responseSender) -> new ScreenshakePacket(buf).apply(client.getNetworkHandler()));
+        ClientPlayNetworking.registerGlobalReceiver(PositionedScreenshakePacket.ID, (client, handler, buf, responseSender) -> PositionedScreenshakePacket.fromBuf(buf).apply(client.getNetworkHandler()));
 
     }
 }

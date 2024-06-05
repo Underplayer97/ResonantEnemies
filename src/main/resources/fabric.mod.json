@@ -25,6 +25,7 @@
       "net.underplayer97.ResonantEnemies.ResonantClientMain"
     ]
   },
+  "accessWidener": "resonantenemies.accesswidener",
   "mixins": [
     "resonantenemies.mixins.json"
   ],

@@ -60,7 +60,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(WolfEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final Predicate<LivingEntity> FOLLOW_TAMED_PREDICATE = entity -> {
         EntityType<?> entityType = entity.getType();
-        return entityType == EntityType.SHEEP || entityType == EntityType.RABBIT || entityType == EntityType.FOX;
+        return entityType == EntityType.SHEEP || entityType == EntityType.PLAYER;
     };
     public float flapProgress;
     public float maxWingDeviation;
@@ -112,7 +112,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
     @Override
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new SitGoal(this));
+        this.goalSelector.add(0, new SitGoal(this));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(6, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0));
@@ -121,7 +121,7 @@ public class CrowEntity extends TameableEntity implements IAnimatable, Flutterer
         this.goalSelector.add(10, new LookAroundGoal(this));
 
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
-        this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
+        //this.targetSelector.add(1, new UntamedActiveTargetGoal<MobEntity>(this, MobEntity.class, false, FOLLOW_TAMED_PREDICATE));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this, new Class[0]).setGroupRevenge(new Class[0]));
         this.targetSelector.add(4, new ActiveTargetGoal<PlayerEntity>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));

@@ -7,8 +7,9 @@
   ],
   "client": [
     "BackgroundRendererMixin",
+    "CameraMixin",
+    "MinecraftClientMixin",
     "ResonantMixins"
-    //"WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
