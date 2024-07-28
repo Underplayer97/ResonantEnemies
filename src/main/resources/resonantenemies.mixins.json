@@ -7,8 +7,10 @@
   ],
   "client": [
     "BackgroundRendererMixin",
+    "BlockBufferBuilderStorageMixin",
     "CameraMixin",
     "MinecraftClientMixin",
+    "RenderLayersOfInvoker",
     "ResonantMixins"
   ],
   "injectors": {

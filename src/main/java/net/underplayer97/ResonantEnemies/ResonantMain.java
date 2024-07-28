@@ -1,6 +1,8 @@
 package net.underplayer97.ResonantEnemies;
 
 import net.fabricmc.api.ModInitializer;
+import net.underplayer97.ResonantEnemies.blocks.ModBlocks;
+import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
 import net.underplayer97.ResonantEnemies.effect.ModEffects;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
@@ -30,6 +32,8 @@ public class ResonantMain implements ModInitializer {
 		ModSounds.registerModSounds();
 		ModEffects.registerEffects();
 		ModParticles.registerParticle();
+		ModBlockEntities.registerBlockEntities();
+		ModBlocks.registerModBlocks();
 
 		ModWorldGen.generateModWorldGen();
 
