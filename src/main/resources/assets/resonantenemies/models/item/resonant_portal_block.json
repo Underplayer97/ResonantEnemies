@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "resonantenemies:item/resonant_portal_block"
+  }
+}

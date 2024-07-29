@@ -3,28 +3,25 @@ package net.underplayer97.ResonantEnemies.blocks.entity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
 import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
 
 @Environment(EnvType.CLIENT)
-public class EndPortalSlabEntityRenderer extends EndPortalBlockEntityRenderer<EndPortalSlabEntity> {
+public class ResonantPortalBlockEntityRenderer extends EndPortalBlockEntityRenderer<ResonantPortalBlockEntity> {
 
     public static final Identifier SKY_TEXTURE = new Identifier("textures/environment/end_sky.png");
     public static final Identifier PORTAL_TEXTURE = new Identifier("textures/entity/end_portal.png");
 
-    public EndPortalSlabEntityRenderer(BlockEntityRendererFactory.Context ctx) {
+
+    public ResonantPortalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         super(ctx);
     }
 
-    public void render(EndPortalSlabEntity blockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
+    public void render(ResonantPortalBlockEntity blockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
 
         super.render(blockEntity, f, matrixStack, vertexConsumerProvider, i, j);
 
@@ -68,7 +65,7 @@ public class EndPortalSlabEntityRenderer extends EndPortalBlockEntityRenderer<En
 
     protected RenderLayer getLayer() {
 
-        return ModRenderLayers.getPortalSlab();
+        return ModRenderLayers.getPortalBlock();
         //return RenderLayer.getEndPortal();
     }
 

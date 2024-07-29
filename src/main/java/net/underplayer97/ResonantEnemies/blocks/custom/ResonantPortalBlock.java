@@ -1,30 +1,23 @@
 package net.underplayer97.ResonantEnemies.blocks.custom;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.underplayer97.ResonantEnemies.blocks.entity.EndPortalSlabEntity;
-import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
-import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
+import net.underplayer97.ResonantEnemies.blocks.entity.ResonantPortalBlockEntity;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
-public class EndPortalSlab extends BlockWithEntity {
+public class ResonantPortalBlock extends BlockWithEntity {
 
-    public EndPortalSlab(Settings settings){
+    public ResonantPortalBlock(Settings settings){
         super(settings);
     }
 
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new EndPortalSlabEntity(pos, state);
+        return new ResonantPortalBlockEntity(pos, state);
     }
 
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {

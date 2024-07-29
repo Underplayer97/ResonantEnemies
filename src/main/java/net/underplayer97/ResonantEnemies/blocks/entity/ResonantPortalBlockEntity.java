@@ -2,18 +2,16 @@ package net.underplayer97.ResonantEnemies.blocks.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.EndPortalBlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.Objects;
 
-public class EndPortalSlabEntity extends EndPortalBlockEntity {
+public class ResonantPortalBlockEntity extends EndPortalBlockEntity {
 
-    public EndPortalSlabEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.END_PORTAL_SLAB_BLOCKENTITY, pos, state);
+    public ResonantPortalBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.RESONANT_PORTAL_BLOCKENTITY, pos, state);
     }
 
     public boolean shouldDrawSide(Direction direction) {

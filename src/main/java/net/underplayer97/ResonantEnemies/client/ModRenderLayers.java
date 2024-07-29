@@ -6,7 +6,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.underplayer97.ResonantEnemies.blocks.entity.EndPortalSlabEntityRenderer;
+import net.underplayer97.ResonantEnemies.blocks.entity.ResonantPortalBlockEntityRenderer;
 import net.underplayer97.ResonantEnemies.mixin.RenderLayersOfInvoker;
 
 @Environment(EnvType.CLIENT)
@@ -17,17 +17,17 @@ public class ModRenderLayers extends RenderLayer {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
     }
 
-    private static final RenderLayer END_PORTAL_SLAB;
+    private static final RenderLayer RESONANT_PORTAL_BLOCK;
 
-    public static RenderLayer getPortalSlab() {
-        return END_PORTAL_SLAB;
+    public static RenderLayer getPortalBlock() {
+        return RESONANT_PORTAL_BLOCK;
     }
 
     static {
 
-        END_PORTAL_SLAB = RenderLayersOfInvoker.of("END_PORTAL_SLAB", VertexFormats.POSITION, VertexFormat.DrawMode.QUADS,
+        RESONANT_PORTAL_BLOCK = RenderLayersOfInvoker.of("resonant_portal_block", VertexFormats.POSITION, VertexFormat.DrawMode.QUADS,
                 256, false, false, MultiPhaseParameters.builder().shader(RenderPhase.END_PORTAL_SHADER).texture(Textures.create()
-                        .add(EndPortalSlabEntityRenderer.SKY_TEXTURE, false, false).add(EndPortalSlabEntityRenderer.PORTAL_TEXTURE,
+                        .add(ResonantPortalBlockEntityRenderer.SKY_TEXTURE, false, false).add(ResonantPortalBlockEntityRenderer.PORTAL_TEXTURE,
                                 true, false).build()).build(false));
 
     }

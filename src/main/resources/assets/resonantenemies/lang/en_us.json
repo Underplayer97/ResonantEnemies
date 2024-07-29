@@ -12,9 +12,10 @@
   "item.resonantenemies.nimhsy_ears": "Nimhsy Ears",
   "item.resonantenemies.crow_armor": "Crow's Camouflage",
 
+  "block.resonantenemies.resonant_portal_block": "Resonant Portal Block",
+
   "entity.resonantenemies.shambler": "Shambler",
   "entity.resonantenemies.crow": "Crow",
-
 
   "subtitles.resonantenemies.shambler.ambient": "Shambler Groan",
   "subtitles.resonantenemies.shambler.hurt": "Shambler Hurt",

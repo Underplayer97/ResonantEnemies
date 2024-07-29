@@ -1,19 +1,13 @@
 package net.underplayer97.ResonantEnemies;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.render.BackgroundRenderer;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.FogShape;
 import net.underplayer97.ResonantEnemies.blocks.ModBlocks;
-import net.underplayer97.ResonantEnemies.blocks.custom.EndPortalSlab;
-import net.underplayer97.ResonantEnemies.blocks.entity.EndPortalSlabEntityRenderer;
+import net.underplayer97.ResonantEnemies.blocks.entity.ResonantPortalBlockEntityRenderer;
 import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
 import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
@@ -35,8 +29,8 @@ public class ResonantClientMain implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.SHAMBLER, ShamblerRenderer::new);
         EntityRendererRegistry.register(ModEntities.CROW, CrowRenderer::new);
 
-        BlockEntityRendererRegistry.register(ModBlockEntities.END_PORTAL_SLAB_BLOCKENTITY, EndPortalSlabEntityRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.END_PORTAL_SLAB, ModRenderLayers.getPortalSlab());
+        BlockEntityRendererRegistry.register(ModBlockEntities.RESONANT_PORTAL_BLOCKENTITY, ResonantPortalBlockEntityRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RESONANT_PORTAL_BLOCK, ModRenderLayers.getPortalBlock());
 
         GeoArmorRenderer.registerArmorRenderer(new PurpleHatArmorRenderer(), ModItems.PURPLE_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new BlackHatArmorRenderer(), ModItems.BLACK_TOPHAT);
