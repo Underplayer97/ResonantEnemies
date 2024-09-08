@@ -23,6 +23,12 @@ public class CoatedParticle extends SpriteBillboardParticle {
     }
 
     @Override
+    public void tick() {
+        this.setSpriteForAge(spriteProvider);
+        super.tick();
+    }
+
+    @Override
     public void move(double dx, double dy, double dz) {
         this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
         this.repositionFromBoundingBox();
