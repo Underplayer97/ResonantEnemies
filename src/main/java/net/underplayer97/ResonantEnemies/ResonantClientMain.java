@@ -10,6 +10,7 @@ import net.underplayer97.ResonantEnemies.blocks.ModBlocks;
 import net.underplayer97.ResonantEnemies.blocks.entity.ResonantPortalBlockEntityRenderer;
 import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
 import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
+import net.underplayer97.ResonantEnemies.configs.ResonantConfig;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
 import net.underplayer97.ResonantEnemies.entity.client.CrowRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
@@ -25,13 +26,18 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 public class ResonantClientMain implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        //Config Impl
+        ResonantConfig.init(ResonantMain.MOD_ID, ResonantConfig.class);
 
+        //Entity Impl
         EntityRendererRegistry.register(ModEntities.SHAMBLER, ShamblerRenderer::new);
         EntityRendererRegistry.register(ModEntities.CROW, CrowRenderer::new);
 
+        //Block Entity Impl
         BlockEntityRendererRegistry.register(ModBlockEntities.RESONANT_PORTAL_BLOCKENTITY, ResonantPortalBlockEntityRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RESONANT_PORTAL_BLOCK, ModRenderLayers.getPortalBlock());
 
+        //Armor Impl
         GeoArmorRenderer.registerArmorRenderer(new PurpleHatArmorRenderer(), ModItems.PURPLE_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new BlackHatArmorRenderer(), ModItems.BLACK_TOPHAT);
         GeoArmorRenderer.registerArmorRenderer(new AegisLegsArmorRenderer(), ModItems.AEGIS_LEGS);
@@ -39,10 +45,11 @@ public class ResonantClientMain implements ClientModInitializer {
         GeoArmorRenderer.registerArmorRenderer(new CrowArmorRenderer(), ModItems.CROW_ARMOR);
         GeoArmorRenderer.registerArmorRenderer(new NimhsyEarsArmorRenderer(), ModItems.NIMHSY_EARS);
 
-
+        //Particle Impl
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COATED_PARTICLE, CoatedParticle.Factory::new);
 
+        //Screenshake
         ClientPlayNetworking.registerGlobalReceiver(ScreenshakePacket.ID, (client, handler, buf, responseSender) -> new ScreenshakePacket(buf).apply(client.getNetworkHandler()));
         ClientPlayNetworking.registerGlobalReceiver(PositionedScreenshakePacket.ID, (client, handler, buf, responseSender) -> PositionedScreenshakePacket.fromBuf(buf).apply(client.getNetworkHandler()));
 

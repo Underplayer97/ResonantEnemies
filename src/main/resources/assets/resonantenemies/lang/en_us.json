@@ -33,6 +33,8 @@
   "item.resonantenemies.music_disc_eye_of_three": "Music Disc",
   "item.resonantenemies.music_disc_eye_of_three.desc": "HandfulJake - Eye of Three",
 
-  "effect.resonantenemies.enshrouded": "Enshrouded"
+  "effect.resonantenemies.enshrouded": "Enshrouded",
+
+  "resonantenemies.midnightconfig.SCREENSHAKE_INTENSITY": "Screenshake Intensity (Set 0 to disable)"
 
 }

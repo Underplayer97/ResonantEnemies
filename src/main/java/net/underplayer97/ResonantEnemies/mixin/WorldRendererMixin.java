@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
@@ -28,14 +29,21 @@ public abstract class WorldRendererMixin {
 
     @Inject(method = "renderSky*", at = @At("HEAD"))
     public void renderSky(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
+        runnable.run();
+        if (!bl) {
+            label59:  {
+                CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
+                if (cameraSubmersionType != CameraSubmersionType.POWDER_SNOW && cameraSubmersionType != CameraSubmersionType.LAVA) {
+                    Entity var9 = camera.getFocusedEntity();
+                    LivingEntity livingEntity = (LivingEntity)var9;
 
-        CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
-        if (cameraSubmersionType == CameraSubmersionType.POWDER_SNOW ||
-                cameraSubmersionType == CameraSubmersionType.LAVA ||
-                camera.getFocusedEntity() instanceof LivingEntity livingEntity && (
-                        livingEntity.hasStatusEffect(StatusEffects.BLINDNESS) ||
-                                livingEntity.hasStatusEffect(ModEffects.ENSHROUDED))) {
-            return;
+                    if (!livingEntity.hasStatusEffect(ModEffects.ENSHROUDED)) {
+                        break label59;
+                    }
+                }
+
+                return;
+            }
         }
 
     }
