@@ -12,7 +12,9 @@ import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
 import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
 import net.underplayer97.ResonantEnemies.configs.ResonantConfig;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
+import net.underplayer97.ResonantEnemies.entity.client.CrawlerRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.CrowRenderer;
+import net.underplayer97.ResonantEnemies.entity.client.DrifterRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.ShamblerRenderer;
 import net.underplayer97.ResonantEnemies.entity.client.armor.*;
 import net.underplayer97.ResonantEnemies.item.ModItems;
@@ -32,6 +34,9 @@ public class ResonantClientMain implements ClientModInitializer {
         //Entity Impl
         EntityRendererRegistry.register(ModEntities.SHAMBLER, ShamblerRenderer::new);
         EntityRendererRegistry.register(ModEntities.CROW, CrowRenderer::new);
+        EntityRendererRegistry.register(ModEntities.CRAWLER, CrawlerRenderer::new);
+        EntityRendererRegistry.register(ModEntities.DRIFTER, DrifterRenderer::new);
+
 
         //Block Entity Impl
         BlockEntityRendererRegistry.register(ModBlockEntities.RESONANT_PORTAL_BLOCKENTITY, ResonantPortalBlockEntityRenderer::new);

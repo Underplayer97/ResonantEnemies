@@ -17,6 +17,9 @@
 
   "entity.resonantenemies.shambler": "Shambler",
   "entity.resonantenemies.crow": "Crow",
+  "entity.resonantenemies.crawler": "Crawler",
+  "entity.resonantenemies.drifter": "Drifter",
+
 
   "subtitles.resonantenemies.shambler.ambient": "Shambler Groan",
   "subtitles.resonantenemies.shambler.hurt": "Shambler Hurt",
