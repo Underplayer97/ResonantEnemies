@@ -7,12 +7,19 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.ResonantMain;
-import net.underplayer97.ResonantEnemies.entity.custom.CrawlerEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.CrowEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.DrifterEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.ShamblerEntity;
+import net.underplayer97.ResonantEnemies.entity.custom.*;
+import net.underplayer97.ResonantEnemies.entity.projectile.SpitterSpitEntity;
 
 public class ModEntities {
+
+    //public boolean alwaysUpdateVelocity() {
+    //    return this != SPITTER_SPIT;
+    //}
+
+    //public static final EntityType<SpitterSpitEntity> SPITTER_SPIT = Registry.register(
+    //        Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "spitter_spit"),
+    //        FabricEntityTypeBuilder.create(SpawnGroup.MISC, SpitterSpitEntity::new)
+    //                .dimensions(EntityDimensions.fixed(0.25F,0.25F)).build());
 
     public static final EntityType<ShamblerEntity> SHAMBLER = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "shambler"),
@@ -32,6 +39,16 @@ public class ModEntities {
     public static final EntityType<DrifterEntity> DRIFTER = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "drifter"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DrifterEntity::new)
-                    .dimensions(EntityDimensions.fixed(1.0f,0.9f)).build());
+                    .dimensions(EntityDimensions.fixed(1.2f,2.5f)).build());
+
+    public static final EntityType<HandEntity> HAND = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "hand"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, HandEntity::new)
+                    .dimensions(EntityDimensions.fixed(1.2f,2.5f)).build());
+
+    public static final EntityType<SpitterEntity> SPITTER = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "spitter"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SpitterEntity::new)
+                    .dimensions(EntityDimensions.fixed(1.2f,2.0f)).build());
 
 }

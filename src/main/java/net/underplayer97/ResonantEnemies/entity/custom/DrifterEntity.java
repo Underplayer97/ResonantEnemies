@@ -42,9 +42,9 @@ public class DrifterEntity extends HostileEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ARMOR, 5.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 13.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1f)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0f);
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0f);
     }
 
     protected void initGoals() {

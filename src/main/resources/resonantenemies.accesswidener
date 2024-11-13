@@ -4,3 +4,4 @@ accessible      method    net/minecraft/client/render/Camera                    
 accessible      class     net/minecraft/block/entity/BlockEntityType$BlockEntityFactory
 accessible      class     net/minecraft/client/render/RenderLayer$MultiPhase
 accessible      class     net/minecraft/client/render/RenderLayer$MultiPhaseParameters
+accessible      method    net/minecraft/entity/projectile/ProjectileEntity                         <init>                       (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V

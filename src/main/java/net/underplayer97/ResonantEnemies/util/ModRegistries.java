@@ -2,10 +2,7 @@ package net.underplayer97.ResonantEnemies.util;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
-import net.underplayer97.ResonantEnemies.entity.custom.CrowEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.DrifterEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.ShamblerEntity;
-import net.underplayer97.ResonantEnemies.entity.custom.CrawlerEntity;
+import net.underplayer97.ResonantEnemies.entity.custom.*;
 
 public class ModRegistries {
 
@@ -18,6 +15,8 @@ public class ModRegistries {
         FabricDefaultAttributeRegistry.register(ModEntities.CROW, CrowEntity.setAttributes());
         FabricDefaultAttributeRegistry.register(ModEntities.CRAWLER, CrawlerEntity.setAttribues());
         FabricDefaultAttributeRegistry.register(ModEntities.DRIFTER, DrifterEntity.setAttribues());
+        FabricDefaultAttributeRegistry.register(ModEntities.HAND, HandEntity.setAttribues());
+        FabricDefaultAttributeRegistry.register(ModEntities.SPITTER, SpitterEntity.setAttribues());
 
     }
 
