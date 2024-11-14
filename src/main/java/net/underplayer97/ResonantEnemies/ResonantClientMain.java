@@ -20,6 +20,7 @@ import net.underplayer97.ResonantEnemies.network.screenshake.ScreenshakePacket;
 import net.underplayer97.ResonantEnemies.particle.ModParticles;
 import net.underplayer97.ResonantEnemies.particle.custom.CoatedParticle;
 import net.underplayer97.ResonantEnemies.particle.custom.EnshroudedParticle;
+import net.underplayer97.ResonantEnemies.particle.custom.SpitterSpitParticle;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class ResonantClientMain implements ClientModInitializer {
@@ -35,6 +36,8 @@ public class ResonantClientMain implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.DRIFTER, DrifterRenderer::new);
         EntityRendererRegistry.register(ModEntities.HAND, HandRenderer::new);
         EntityRendererRegistry.register(ModEntities.SPITTER, SpitterRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SPITTER_SPIT, SpitterSpitRenderer::new);
+        EntityRendererRegistry.register(ModEntities.EREBUS, ErebusRenderer::new);
 
 
         //Block Entity Impl
@@ -52,6 +55,7 @@ public class ResonantClientMain implements ClientModInitializer {
         //Particle Impl
         ParticleFactoryRegistry.getInstance().register(ModParticles.ENSHROUDED_PARTICLE, EnshroudedParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COATED_PARTICLE, CoatedParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPITTER_SPIT_PARTICLE, SpitterSpitParticle.Factory::new);
 
         //Screenshake
         ClientPlayNetworking.registerGlobalReceiver(ScreenshakePacket.ID, (client, handler, buf, responseSender) -> new ScreenshakePacket(buf).apply(client.getNetworkHandler()));

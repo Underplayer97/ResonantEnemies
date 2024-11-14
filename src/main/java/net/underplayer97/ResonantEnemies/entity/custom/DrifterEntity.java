@@ -40,7 +40,7 @@ public class DrifterEntity extends HostileEntity implements IAnimatable {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0f)
                 .add(EntityAttributes.GENERIC_ARMOR, 5.0f)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 13.0f)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 18.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
@@ -49,7 +49,7 @@ public class DrifterEntity extends HostileEntity implements IAnimatable {
 
     protected void initGoals() {
         this.goalSelector.add(2, new AttackGoal(this));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 10.0f));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
 
@@ -104,21 +104,21 @@ public class DrifterEntity extends HostileEntity implements IAnimatable {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.SHAMBLER_AMBIENT;
+        return SoundEvents.ENTITY_PHANTOM_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.SHAMBLER_HURT;
+        return SoundEvents.ENTITY_PHANTOM_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSounds.SHAMBLER_DEATH;
+        return SoundEvents.ENTITY_PHANTOM_DEATH;
     }
 
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15f, 1.0f);
-    }
+    //@Override
+    //protected void playStepSound(BlockPos pos, BlockState state) {
+    //    this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15f, 1.0f);
+    //}
 }

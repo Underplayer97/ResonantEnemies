@@ -46,7 +46,7 @@ public class CrawlerEntity extends HostileEntity implements IAnimatable {
 
     protected void initGoals() {
         this.goalSelector.add(2, new AttackGoal(this));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 10.0f));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
 
@@ -101,21 +101,21 @@ public class CrawlerEntity extends HostileEntity implements IAnimatable {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.SHAMBLER_AMBIENT;
+        return SoundEvents.ENTITY_DROWNED_AMBIENT_WATER;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.SHAMBLER_HURT;
+        return SoundEvents.ENTITY_DROWNED_HURT_WATER;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSounds.SHAMBLER_DEATH;
+        return SoundEvents.ENTITY_DROWNED_DEATH_WATER;
     }
 
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15f, 1.0f);
-    }
+    //@Override
+    //protected void playStepSound(BlockPos pos, BlockState state) {
+    //    this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15f, 1.0f);
+    //}
 }

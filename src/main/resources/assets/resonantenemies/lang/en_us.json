@@ -4,6 +4,10 @@
 
   "item.resonantenemies.shambler_spawn_egg": "Shambler Spawn Egg",
   "item.resonantenemies.crow_spawn_egg": "Crow Spawn Egg",
+  "item.resonantenemies.spitter_spawn_egg": "Spitter Spawn Egg",
+  "item.resonantenemies.hand_spawn_egg": "Hand Spawn Egg",
+  "item.resonantenemies.crawler_spawn_egg": "Crawler Spawn Egg",
+  "item.resonantenemies.drifter_spawn_egg": "Drifter Spawn Egg",
 
   "item.resonantenemies.purple_tophat": "Purple Tophat",
   "item.resonantenemies.black_tophat": "Black Tophat",
@@ -19,6 +23,8 @@
   "entity.resonantenemies.crow": "Crow",
   "entity.resonantenemies.crawler": "Crawler",
   "entity.resonantenemies.drifter": "Drifter",
+  "entity.resonantenemies.spitter": "Spitter",
+  "entity.resonantenemies.hand": "Hand",
 
 
   "subtitles.resonantenemies.shambler.ambient": "Shambler Groan",

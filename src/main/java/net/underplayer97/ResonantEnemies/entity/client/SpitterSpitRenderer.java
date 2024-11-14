@@ -12,15 +12,16 @@ import net.minecraft.entity.projectile.LlamaSpitEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
+import net.underplayer97.ResonantEnemies.ResonantMain;
 import net.underplayer97.ResonantEnemies.entity.custom.SpitterEntity;
 import net.underplayer97.ResonantEnemies.entity.projectile.SpitterSpitEntity;
 
 public class SpitterSpitRenderer extends EntityRenderer<SpitterSpitEntity> {
 
-    private static final Identifier TEXTURE = new Identifier("textures/entity/llama/spit.png");
+    private static final Identifier TEXTURE = new Identifier("textures/entity/spit.png");
     private final SpitterSpitModel<SpitterSpitEntity> model;
 
-    protected SpitterSpitRenderer(EntityRendererFactory.Context ctx) {
+    public SpitterSpitRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
         this.model = new SpitterSpitModel(ctx.getPart(EntityModelLayers.LLAMA_SPIT));
     }
@@ -38,8 +39,8 @@ public class SpitterSpitRenderer extends EntityRenderer<SpitterSpitEntity> {
     }
 
     @Override
-    public Identifier getTexture(SpitterSpitEntity spitterSpitEntity) {
-        return TEXTURE;
+    public Identifier getTexture(SpitterSpitEntity entity) {
+        return new Identifier(ResonantMain.MOD_ID, "textures/entity/spit.png");
     }
 
 }

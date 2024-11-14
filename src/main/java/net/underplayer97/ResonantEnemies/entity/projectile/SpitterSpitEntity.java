@@ -17,19 +17,19 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
 import net.underplayer97.ResonantEnemies.entity.custom.SpitterEntity;
+import net.underplayer97.ResonantEnemies.particle.ModParticles;
 
 public class SpitterSpitEntity extends ProjectileEntity {
 
-    public SpitterSpitEntity(EntityType<? extends SpitterSpitEntity> entityType, World world){
+    public SpitterSpitEntity(EntityType<SpitterSpitEntity> entityType, World world){
         super(entityType, world);
     }
 
-    //public SpitterSpitEntity(World world, SpitterEntity owner){
-    //    this(ModEntities.SPITTER_SPIT, world);
-    //    this.setOwner(owner);
-    //    this.setPosition(owner.getX() - (double)(owner.getWidth() + 1.0F) * 0.5 * (double)
-    //            MathHelper.sin(owner.bodyYaw * 0.017453292F), owner.getEyeY() - 0.10000000149011612, owner.getZ() + (double)(owner.getWidth() + 1.0F) * 0.5 * (double)MathHelper.cos(owner.bodyYaw * 0.017453292F));
-    //}
+    public SpitterSpitEntity(World world, SpitterEntity owner){
+        this(ModEntities.SPITTER_SPIT, world);
+        this.setOwner(owner);
+        this.setPosition(owner.getX() - (double)(owner.getWidth() + 1.0F) * 0.5 * (double)MathHelper.sin(owner.bodyYaw * 0.017453292F), owner.getEyeY() - 0.10000000149011612, owner.getZ() + (double)(owner.getWidth() + 1.0F) * 0.5 * (double)MathHelper.cos(owner.bodyYaw * 0.017453292F));
+    }
 
 
     public void tick() {
@@ -61,7 +61,7 @@ public class SpitterSpitEntity extends ProjectileEntity {
         super.onEntityHit(entityHitResult);
         Entity entity = this.getOwner();
         if (entity instanceof LivingEntity) {
-            entityHitResult.getEntity().damage(DamageSource.mobProjectile(this, (LivingEntity)entity).setProjectile(), 1.0F);
+            entityHitResult.getEntity().damage(DamageSource.mobProjectile(this, (LivingEntity)entity).setProjectile(), 10.0F);
         }
 
     }
@@ -86,7 +86,7 @@ public class SpitterSpitEntity extends ProjectileEntity {
 
         for(int i = 0; i < 7; ++i) {
             double g = 0.4 + 0.1 * (double)i;
-            this.world.addParticle(ParticleTypes.SPIT, this.getX(), this.getY(), this.getZ(), d * g, e, f * g);
+            this.world.addParticle(ModParticles.SPITTER_SPIT_PARTICLE, this.getX(), this.getY(), this.getZ(), d * g, e, f * g);
         }
 
         this.setVelocity(d, e, f);

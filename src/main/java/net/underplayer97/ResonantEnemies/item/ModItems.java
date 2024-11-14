@@ -24,6 +24,22 @@ public class ModItems {
             new SpawnEggItem(ModEntities.CROW,0x090909, 0xfcd720,
                     new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
 
+    public static final Item SPITTER_SPAWN_EGG = registerItem("spitter_spawn_egg",
+            new SpawnEggItem(ModEntities.SPITTER,0x36013F, 0xFFFFFF,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
+
+    public static final Item HAND_SPAWN_EGG = registerItem("hand_spawn_egg",
+            new SpawnEggItem(ModEntities.HAND,0xFFFF00, 0x36013F,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
+
+    public static final Item DRIFTER_SPAWN_EGG = registerItem("drifter_spawn_egg",
+            new SpawnEggItem(ModEntities.DRIFTER,0x36013F,0xFFFF00 ,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
+
+    public static final Item CRAWLER_SPAWN_EGG = registerItem("crawler_spawn_egg",
+            new SpawnEggItem(ModEntities.CRAWLER,0x36013F, 0xFFFF00,
+                    new FabricItemSettings().group(ModItemGroup.RESONANCE).maxCount(64)));
+
     public static final Item MUSIC_DISC_EYE_OF_THREE = registerItem("music_disc_eye_of_three",
             new ModMusicDiscItem(7, ModSounds.MUSIC_DISC_EYE_OF_THREE,
                     new FabricItemSettings().rarity(Rarity.RARE).group(ModItemGroup.RESONANCE).maxCount(1)));
