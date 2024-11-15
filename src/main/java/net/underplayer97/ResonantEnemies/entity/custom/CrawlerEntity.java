@@ -41,7 +41,9 @@ public class CrawlerEntity extends HostileEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1f)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0f);
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0f)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f);
+
     }
 
     protected void initGoals() {
