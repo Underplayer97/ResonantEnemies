@@ -17,7 +17,7 @@ public class ErebusRenderer extends GeoEntityRenderer<ErebusEntity> {
 
     @Override
     public Identifier getTextureLocation(ErebusEntity instance) {
-        return new Identifier(ResonantMain.MOD_ID, "textures/entity/drifter.png");
+        return new Identifier(ResonantMain.MOD_ID, "textures/entity/erebus/erebus.png");
     }
 }
 

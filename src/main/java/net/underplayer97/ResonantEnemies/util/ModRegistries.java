@@ -18,7 +18,7 @@ public class ModRegistries {
         FabricDefaultAttributeRegistry.register(ModEntities.DRIFTER, DrifterEntity.setAttribues());
         FabricDefaultAttributeRegistry.register(ModEntities.HAND, HandEntity.setAttribues());
         FabricDefaultAttributeRegistry.register(ModEntities.SPITTER, SpitterEntity.setAttribues());
-        FabricDefaultAttributeRegistry.register(ModEntities.EREBUS, ErebusEntity.setAttribues());
+        FabricDefaultAttributeRegistry.register(ModEntities.EREBUS, ErebusEntity.setAttributes());
 
     }
 

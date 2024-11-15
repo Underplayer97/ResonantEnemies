@@ -13,24 +13,24 @@ public class ErebusModel extends AnimatedGeoModel<ErebusEntity> {
 
     @Override
     public Identifier getModelLocation(ErebusEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "geo/entity/drifter.geo.json");
+        return new Identifier(ResonantMain.MOD_ID, "geo/entity/erebus.geo.json");
     }
 
     @Override
     public Identifier getTextureLocation(ErebusEntity object) {
-        return new Identifier(ResonantMain.MOD_ID, "textures/entity/drifter.png");
+        return new Identifier(ResonantMain.MOD_ID, "textures/entity/erebus/erebus.png");
     }
 
     @Override
     public Identifier getAnimationFileLocation(ErebusEntity animatable) {
-        return new Identifier(ResonantMain.MOD_ID, "animations/drifter.animation.json");
+        return new Identifier(ResonantMain.MOD_ID, "animations/armor.animation.json");
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void setLivingAnimations(ErebusEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone head = this.getAnimationProcessor().getBone("Head");
+        IBone head = this.getAnimationProcessor().getBone("Hat");
 
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
         if (head != null) {
