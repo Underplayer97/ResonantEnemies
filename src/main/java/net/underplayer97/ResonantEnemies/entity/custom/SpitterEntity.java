@@ -82,7 +82,7 @@ public class SpitterEntity extends HostileEntity implements RangedAttackMob, IAn
         this.spitAt(target);
     }
 
-
+    //TODO: FIX ATTACK ANIMATIONS
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spitter.walk", true));

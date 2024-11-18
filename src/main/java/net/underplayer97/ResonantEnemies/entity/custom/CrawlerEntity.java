@@ -40,7 +40,7 @@ public class CrawlerEntity extends HostileEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 13.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2f)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0f)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f);
 
@@ -56,6 +56,7 @@ public class CrawlerEntity extends HostileEntity implements IAnimatable {
                 true));
     }
 
+    //TODO: FIX ATTACK ANIMATIONS
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crawler.walk", true));

@@ -65,6 +65,7 @@ public class HandEntity extends HostileEntity implements IAnimatable {
         return PlayState.CONTINUE;
     }
 
+    //TODO: FIX ATTACK ANIMATIONS
     private PlayState attackPredicate(AnimationEvent event) {
         if (this.handSwinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
             this.world.playSound(this.getX(), this.getEyeY(), this.getZ(), ModSounds.SHAMBLER_ATTACK, this.getSoundCategory(), 1.0f, 1.0f, true);

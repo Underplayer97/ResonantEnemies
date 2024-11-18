@@ -8,34 +8,20 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.world.World;
+import net.underplayer97.ResonantEnemies.entity.ModEntities;
+import net.underplayer97.ResonantEnemies.entity.boss.AbstractPart;
 import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
 
-public class ErebusPart extends Entity {
-    public final ErebusEntity owner;
-    public final String name;
-    private final EntityDimensions partDimensions;
+public class ErebusPart extends AbstractPart {
 
-    public ErebusPart(ErebusEntity owner, String name, float width, float height) {
-        super(owner.getType(), owner.world);
-        this.partDimensions = EntityDimensions.changing(width, height);
-        this.calculateDimensions();
-        this.owner = owner;
-        this.name = name;
-    }
+    private final float baseRadius, baseOffsetY, baseSizeX, baseSizeY;
 
-    @Override
-    protected void initDataTracker() {
-
-    }
-
-    @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-
-    }
-
-    @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-
+    public ErebusPart(EntityType<?> t, World world) {
+        super(t, world);
+        this.baseRadius = 0;
+        this.baseOffsetY = 0;
+        this.baseSizeX = 0;
+        this.baseSizeY = 0;
     }
 
     @Override
@@ -43,28 +29,32 @@ public class ErebusPart extends Entity {
         return null;
     }
 
-    public boolean collides() {
-        return true;
+
+    public ErebusPart(EntityType<?> type, ErebusPart erebus, float baseRadius, float angleYaw, float baseOffsetY, float baseSizeX, float baseSizeY, float damageMultiplier) {
+        super(type,erebus,baseRadius,angleYaw,baseOffsetY,baseSizeX,baseSizeY,damageMultiplier);
+        this.baseRadius = baseRadius;
+        this.baseOffsetY = baseOffsetY;
+        this.baseSizeX = baseSizeX;
+        this.baseSizeY = baseSizeY;
     }
 
-    //public boolean damage(DamageSource source, float amount) {
-    //    return this.isInvulnerableTo(source) ? false : this.owner.damagePart(this, source, amount);
-    //}
-
-    public boolean isPartOf(Entity entity) {
-        return this == entity || this.owner == entity;
+    public ErebusPart(ErebusEntity parent, float baseRadius, float angleYaw, float baseOffsetY, float baseSizeX, float baseSizeY, float damageMultiplier) {
+        super(ModEntities.EREBUS_MULTIPART, parent,baseRadius, angleYaw, baseOffsetY, baseSizeX, baseSizeY, damageMultiplier);
+        this.baseRadius = baseRadius;
+        this.baseOffsetY = baseOffsetY;
+        this.baseSizeX = baseSizeX;
+        this.baseSizeY = baseSizeY;
     }
 
-    //public Packet<?> createSpawnPacket(){
-    //    throw new UnsupportedOperationException();
-    //}
-
-    public EntityDimensions getDimensions(EntityPose pose) {
-        return this.partDimensions;
+    public void updateScale(float scale) {
+        this.radius = this.baseRadius * scale;
+        this.offsetY = this.baseOffsetY * scale;
+        this.setScaleX(this.baseSizeX * scale);
+        this.setScaleY(this.baseSizeY * scale);
     }
 
-    public boolean shouldSave() {
-        return false;
-    }
+    @Override
+    public void collideWithNearbyEntities() {
 
+    }
 }

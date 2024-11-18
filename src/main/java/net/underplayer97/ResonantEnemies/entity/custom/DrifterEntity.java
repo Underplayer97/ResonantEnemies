@@ -90,6 +90,7 @@ public class DrifterEntity extends HostileEntity implements IAnimatable {
     //    super.tickMovement();
     //}
 
+    //TODO: FIX ATTACK ANIMATIONS
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController(this, "controller",
