@@ -1,6 +1,5 @@
 package net.underplayer97.ResonantEnemies.entity.boss;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.MovementType;
@@ -14,10 +13,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.underplayer97.ResonantEnemies.entity.boss.erebus.ErebusPart;
-import net.underplayer97.ResonantEnemies.entity.util.EntityUtil;
 import net.underplayer97.ResonantEnemies.sound.ModSounds;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -29,135 +27,16 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
+public class ErebusEntity extends AbstractBossEntity implements IAnimatable, MultipartEntity {
 
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public int ticksSinceDeath;
-
-    private ErebusPart headPart;
-    private ErebusPart bodyPart;
-    private ErebusPart topRightHand;
-    private ErebusPart topLeftHand;
-    private ErebusPart bottomRightHand;
-    private ErebusPart bottomLeftHand;
-
+    private float lastScale;
 
     public ErebusEntity(EntityType<? extends ErebusEntity> entityType, World world) {
         super(entityType, world);
-        //this.parts = new ErebusPart[]{this.head, this.body, this.topHandL, this.topHandR, this.bottomHandL, this.bottomHandR};
         this.setHealth(this.getMaxHealth());
     }
-
-    public void updateScale(float scale) {
-        if (this.headPart == null || this.headPart.isRemoved()) {
-            this.headPart = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.headPart);
-        }
-        this.headPart.updateScale(scale);
-
-        if (this.bodyPart == null || this.bodyPart.isRemoved()) {
-            this.bodyPart = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.bodyPart);
-        }
-        this.bodyPart.updateScale(scale);
-
-        if (this.topRightHand == null || this.topRightHand.isRemoved()) {
-            this.topRightHand = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.topRightHand);
-        }
-        this.topRightHand.updateScale(scale);
-
-        if (this.topLeftHand == null || this.topLeftHand.isRemoved()) {
-            this.topLeftHand = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.topLeftHand);
-        }
-        this.topLeftHand.updateScale(scale);
-
-        if (this.bottomRightHand == null || this.bottomRightHand.isRemoved()) {
-            this.bottomRightHand = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.bottomRightHand);
-        }
-        this.bottomRightHand.updateScale(scale);
-
-        if (this.bottomLeftHand == null || this.bottomLeftHand.isRemoved()) {
-            this.bottomLeftHand = new ErebusPart(this, 1.55F, 0, 0.6F, 0.5F, 0.35F, 1.5F);
-            this.getWorld().spawnEntity(this.bottomLeftHand);
-        }
-        this.bottomLeftHand.updateScale(scale);
-
-    }
-
-    public void removeParts() {
-        if (this.headPart != null) {
-            this.headPart.remove(RemovalReason.DISCARDED);
-            this.headPart = null;
-        }
-        if (this.bodyPart != null) {
-            this.bodyPart.remove(RemovalReason.DISCARDED);
-            this.bodyPart = null;
-        }
-        if (this.topRightHand != null) {
-            this.topRightHand.remove(RemovalReason.DISCARDED);
-            this.topRightHand = null;
-        }
-        if (this.topLeftHand != null) {
-            this.topLeftHand.remove(RemovalReason.DISCARDED);
-            this.topLeftHand = null;
-        }
-        if (this.bottomRightHand != null) {
-            this.bottomRightHand.remove(RemovalReason.DISCARDED);
-            this.bottomRightHand = null;
-        }
-        if (this.bottomLeftHand != null) {
-            this.bottomLeftHand.remove(RemovalReason.DISCARDED);
-            this.bottomLeftHand = null;
-        }
-    }
-
-    public void updateParts() {
-        if (this.isRemoved()) return;
-        this.headPart.copyPositionAndRotation(this);
-        this.bodyPart.copyPositionAndRotation(this);
-        this.topRightHand.copyPositionAndRotation(this);
-        this.topLeftHand.copyPositionAndRotation(this);
-        this.bottomRightHand.copyPositionAndRotation(this);
-        this.bottomLeftHand.copyPositionAndRotation(this);
-
-        EntityUtil.updatePart(this.headPart, this);
-        EntityUtil.updatePart(this.bodyPart, this);
-        EntityUtil.updatePart(this.topRightHand, this);
-        EntityUtil.updatePart(this.topLeftHand, this);
-        EntityUtil.updatePart(this.bottomRightHand, this);
-        EntityUtil.updatePart(this.bottomLeftHand, this);
-    }
-
-    @Override
-    public void remove(RemovalReason reason) {
-        this.removeParts();
-        super.remove(reason);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        this.updateParts();
-    }
-
-    public boolean isPart(Entity entityHit) {
-        return this.headPart != null && this.headPart.isPartOf(entityHit) ||
-         this.bodyPart != null && this.bodyPart.isPartOf(entityHit) ||
-         this.topRightHand != null && this.topRightHand.isPartOf(entityHit) ||
-         this.topLeftHand != null && this.topLeftHand.isPartOf(entityHit) ||
-         this.bottomRightHand != null && this.bottomRightHand.isPartOf(entityHit) ||
-         this.bottomLeftHand != null && this.bottomLeftHand.isPartOf(entityHit);
-    }
-
-    @Override
-    public void calculateDimensions() {
-        super.calculateDimensions();
-
-    }
-
 
     //public void tickMovement() {
     //    float g;
@@ -168,7 +47,6 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     //        this.world.addParticle(ParticleTypes.EXPLOSION, this.getX() + (double)f, this.getY() + 2.0 + (double)g, this.getZ() + (double)h, 0.0, 0.0, 0.0);
     //    }
     //}
-
 
     @Override
     protected void updatePostDeath() {
@@ -272,4 +150,43 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     public AnimationFactory getFactory() {
         return factory;
     }
+
+    @Override
+    public void tick() {
+        super.tick();
+        updateChildParts();
+    }
+
+    private final EntityPart headPart = new EntityPart(this, 1, 1);
+    private final EntityPart bodyPart = new EntityPart(this, 1, 1);
+    private final EntityPart topRightHand = new EntityPart(this, 1, 1);
+    private final EntityPart topLeftHand = new EntityPart(this, 1, 1);
+    private final EntityPart bottomRightHand = new EntityPart(this, 1, 1);
+    private final EntityPart bottomLeftHand = new EntityPart(this, 1, 1);
+    private final EntityPart[] parts = new EntityPart[]{headPart,bodyPart,topRightHand,topLeftHand,bottomRightHand,bottomLeftHand};
+
+
+    @Override
+    public EntityPart[] getParts() {
+        return parts;
+    }
+
+    public void updateChildParts() {
+        Vec3f headPos;
+        Vec3f bodyPos;
+        Vec3f topRightHandPos;
+        Vec3f topLeftHandPos;
+        Vec3f bottomRightHand;
+        Vec3f bottomLeftHand;
+
+        headPos = new Vec3f(0, getHeight() - 0.5f, 0);
+
+        //headPart.setRelativePos(headPos);
+
+
+
+    }
+
+
+
 }

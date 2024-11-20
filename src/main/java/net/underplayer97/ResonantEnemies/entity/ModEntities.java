@@ -8,16 +8,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.ResonantMain;
 import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
-import net.underplayer97.ResonantEnemies.entity.boss.erebus.ErebusPart;
 import net.underplayer97.ResonantEnemies.entity.custom.*;
 import net.underplayer97.ResonantEnemies.entity.projectile.SpitterSpitEntity;
 
 public class ModEntities {
-
-    public static final EntityType<ErebusPart> EREBUS_MULTIPART = Registry.register(
-            Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "erebus_multipart"),
-            FabricEntityTypeBuilder.<ErebusPart>create(SpawnGroup.MISC, ErebusPart::new)
-                    .dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
 
     public static final EntityType<SpitterSpitEntity> SPITTER_SPIT = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "spitter_spit"),

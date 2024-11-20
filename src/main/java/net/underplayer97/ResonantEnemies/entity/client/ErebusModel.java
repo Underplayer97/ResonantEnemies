@@ -2,6 +2,7 @@ package net.underplayer97.ResonantEnemies.entity.client;
 
 import net.minecraft.util.Identifier;
 import net.underplayer97.ResonantEnemies.ResonantMain;
+import net.underplayer97.ResonantEnemies.entity.boss.EntityPart;
 import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
 import net.underplayer97.ResonantEnemies.entity.custom.DrifterEntity;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;

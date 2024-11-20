@@ -1,7 +1,9 @@
 package net.underplayer97.ResonantEnemies;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -12,8 +14,11 @@ import net.underplayer97.ResonantEnemies.blocks.entity.ModBlockEntities;
 import net.underplayer97.ResonantEnemies.client.ModRenderLayers;
 import net.underplayer97.ResonantEnemies.configs.ResonantConfig;
 import net.underplayer97.ResonantEnemies.entity.ModEntities;
+import net.underplayer97.ResonantEnemies.entity.boss.EntityPart;
+import net.underplayer97.ResonantEnemies.entity.boss.MultipartEntity;
 import net.underplayer97.ResonantEnemies.entity.client.*;
 import net.underplayer97.ResonantEnemies.entity.client.armor.*;
+import net.underplayer97.ResonantEnemies.entity.util.WorldMultipartHelper;
 import net.underplayer97.ResonantEnemies.item.ModItems;
 import net.underplayer97.ResonantEnemies.network.screenshake.PositionedScreenshakePacket;
 import net.underplayer97.ResonantEnemies.network.screenshake.ScreenshakePacket;
@@ -60,6 +65,17 @@ public class ResonantClientMain implements ClientModInitializer {
         //Screenshake
         ClientPlayNetworking.registerGlobalReceiver(ScreenshakePacket.ID, (client, handler, buf, responseSender) -> new ScreenshakePacket(buf).apply(client.getNetworkHandler()));
         ClientPlayNetworking.registerGlobalReceiver(PositionedScreenshakePacket.ID, (client, handler, buf, responseSender) -> PositionedScreenshakePacket.fromBuf(buf).apply(client.getNetworkHandler()));
+
+        ClientEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+            if (entity instanceof MultipartEntity multipartEntity) {
+                Int2ObjectMap<EntityPart> partMap = ((WorldMultipartHelper)world).getPMEPartMap();
+                for (EntityPart part : multipartEntity.getParts()) partMap.put(part.getId(), part);
+            }});
+        ClientEntityEvents.ENTITY_UNLOAD.register((entity, world) -> {
+            if (entity instanceof MultipartEntity multipartEntity) {
+                Int2ObjectMap<EntityPart> partMap = ((WorldMultipartHelper)world).getPMEPartMap();
+                for (EntityPart part : multipartEntity.getParts()) partMap.remove(part.getId());
+            }});
 
     }
 }
