@@ -26,7 +26,7 @@ public class ModEntities {
     public static final EntityType<ErebusEntity> EREBUS = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "erebus"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, ErebusEntity::new)
-                    .dimensions(EntityDimensions.fixed(7.0f,7.0f)).build());
+                    .dimensions(EntityDimensions.fixed(2.5f,6.0f)).build());
 
     public static final EntityType<CrowEntity> CROW = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "crow"),

@@ -12,9 +12,13 @@ import net.minecraft.network.Packet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.shape.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class EntityPart extends Entity {
+import java.util.List;
+
+public abstract class EntityPart extends Entity {
 
     public final Entity owner;
     private final EntityDimensions hitbox;

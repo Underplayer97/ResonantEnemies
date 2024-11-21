@@ -24,7 +24,7 @@ public class ErebusModel extends AnimatedGeoModel<ErebusEntity> {
 
     @Override
     public Identifier getAnimationFileLocation(ErebusEntity animatable) {
-        return new Identifier(ResonantMain.MOD_ID, "animations/armor.animation.json");
+        return new Identifier(ResonantMain.MOD_ID, "animations/erebus.animation.json");
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
