@@ -2,30 +2,42 @@ package net.underplayer97.ResonantEnemies.entity.boss;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.AttackGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.underplayer97.ResonantEnemies.entity.ai.ErebusAttackGoal;
 import net.underplayer97.ResonantEnemies.entity.boss.erebus.ErebusPart;
+import net.underplayer97.ResonantEnemies.entity.custom.ShamblerEntity;
+import net.underplayer97.ResonantEnemies.entity.projectile.SpitterSpitEntity;
+import net.underplayer97.ResonantEnemies.entity.util.ModAttributes;
 import net.underplayer97.ResonantEnemies.sound.ModSounds;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.RawAnimation;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -37,12 +49,13 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     public int ticksSinceDeath;
     private float lastScale;
-    //private final ErebusPart headPart = new ErebusPart(this);
-    //private final ErebusPart topRightHandPart = new ErebusPart(this);
-    //private final ErebusPart topLeftHandPart = new ErebusPart(this);
-    //private final ErebusPart bottomRightHandPart = new ErebusPart(this);
-    //private final ErebusPart bottomLeftHandPart = new ErebusPart(this);
-    //private final ErebusPart[] parts = new ErebusPart[]{headPart,topRightHandPart,topLeftHandPart,bottomRightHandPart,bottomLeftHandPart};
+    private static final TrackedData<Integer> PRIMARY_ATTACK_COOLDOWN = DataTracker.registerData(ErebusEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> SPECIAL_ATTACK_COOLDOWN = DataTracker.registerData(ErebusEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected int primaryAttackDuration = 20;
+    protected int specialAttackDuration = 20;
+    boolean shoot;
+    boolean isDead = false;
+    boolean summoned;
 
     public ErebusEntity(EntityType<? extends ErebusEntity> entityType, World world) {
         super(entityType, world);
@@ -68,8 +81,11 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0f);
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
+                .add(ModAttributes.EREBUS_SPECIAL_ATTACK_COOLDOWN, 6.0f)
+                .add(ModAttributes.EREBUS_PRIMARY_ATTACK_COOLDOWN, 2.0f)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f);
     }
 
 
@@ -82,8 +98,86 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     }
 
     @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        dataTracker.startTracking(PRIMARY_ATTACK_COOLDOWN, 0);
+        dataTracker.startTracking(SPECIAL_ATTACK_COOLDOWN, 0);
+    }
+
+    public boolean isPrimaryAttack() {
+        return getPrimaryAttackCooldown() > getMaxPrimaryAttackCooldown() - primaryAttackDuration;
+    }
+
+    public int getPrimaryAttackCooldown() {
+        return dataTracker.get(PRIMARY_ATTACK_COOLDOWN);
+    }
+
+    public void setPrimaryAttackCooldown(int state) {
+        dataTracker.set(PRIMARY_ATTACK_COOLDOWN, state);
+    }
+
+    public int getMaxPrimaryAttackCooldown() {
+        return (int) (getAttributeValue(ModAttributes.EREBUS_PRIMARY_ATTACK_COOLDOWN));
+    }
+
+    public boolean isSpecialAttack() {
+        return getSpecialAttackCooldown() > getMaxSpecialAtackCooldown() - specialAttackDuration;
+    }
+
+    public int getSpecialAttackCooldown() {
+        return dataTracker.get(SPECIAL_ATTACK_COOLDOWN);
+    }
+
+    public void setSpecialAttackCooldown(int state) {
+        dataTracker.set(PRIMARY_ATTACK_COOLDOWN, state);
+    }
+
+    public int getMaxSpecialAtackCooldown() {
+        return (int) (getAttributeValue(ModAttributes.EREBUS_SPECIAL_ATTACK_COOLDOWN));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (getPrimaryAttackCooldown() > 0) setPrimaryAttackCooldown(getPrimaryAttackCooldown() - 1);
+        if (getSpecialAttackCooldown() > 0) setSpecialAttackCooldown(getSpecialAttackCooldown() - 1);
+    }
+
+    //public void shootAt(LivingEntity target) {
+    //    if (getWorld().isClient()) return;
+    //    setSpecialAttackCooldown(getMaxSpecialAtackCooldown());
+
+    //    for (int i = 0; i < 5; ++i) {
+    //        SpitterSpitEntity shootEntity = new SpitterSpitEntity(getWorld(), this);
+    //        double x = target.getX() - this.getX();
+    //        double y = target.getBodyY(0.3333333333333333) - shootEntity.getY();
+    //        double z = target.getZ() - this.getZ();
+    //        double g = Math.sqrt(x * x + z * z) * 0.20000000298023224;
+
+    //        shootEntity.setVelocity(x, y + g, z, 1.5f, 10.0f);
+    //        this.world.spawnEntity(shootEntity);
+    //        this.shoot = true;
+    //    }
+    //}
+
+    void setShoot(boolean shoot) {
+        this.shoot = shoot;
+    }
+
+    public void meleeAttack(LivingEntity target) {
+        setPrimaryAttackCooldown(getMaxPrimaryAttackCooldown());
+        //setAttackType(random.nextInt(3)+1)
+        if (target != null) {
+            Box targetBox = target.getBoundingBox();
+            if (collides()) tryAttack(target);
+        }
+    }
+
+    @Override
     protected void updatePostDeath() {
         ++this.ticksSinceDeath;
+        this.isDead = true;
         if (this.ticksSinceDeath >= 180 && this.ticksSinceDeath <= 200) {
             float f = (this.random.nextFloat() - 0.5F) * 8.0F;
             float g = (this.random.nextFloat() - 0.5F) * 4.0F;
@@ -91,9 +185,6 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
             this.world.addParticle(ParticleTypes.EXPLOSION_EMITTER, this.getX() + (double)f, this.getY() + 2.0 + (double)g, this.getZ() + (double)h, 0.0, 0.0, 0.0);
         }
 
-        this.move(MovementType.SELF, new Vec3d(0.0, 0.10000000149011612, 0.0));
-        this.setYaw(this.getYaw() + 20.0F);
-        this.bodyYaw = this.getYaw();
         if (this.ticksSinceDeath == 200 && this.world instanceof ServerWorld) {
 
             this.remove(RemovalReason.KILLED);
@@ -120,33 +211,48 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
         return null;
     }
 
+    @Override
+    public void onSummoned() {
+        summoned = true;
+    }
+
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
+        if (summoned) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.spawn", false));
+            summoned = false;
+            return PlayState.CONTINUE;
+
+        }  else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0 || !summoned) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.move", true));
             return PlayState.CONTINUE;
         }
+        if (isDead){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.defeat", false));
+            return PlayState.STOP;
+
+        }
+
 
         event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.idle", true));
         return PlayState.CONTINUE;
     }
 
-    private PlayState attackPredicate(AnimationEvent event) {
-        if (this.handSwinging && event.getController().getAnimationState().equals(AnimationState.Stopped)) {
-            this.world.playSound(this.getX(), this.getEyeY(), this.getZ(), ModSounds.SHAMBLER_ATTACK, this.getSoundCategory(), 1.0f, 1.0f, true);
-            event.getController().markNeedsReload();
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.attack", false));
+    private <T extends IAnimatable> PlayState attackPredicate(AnimationEvent<T> event) {
+        if (this.isAttacking()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.slam", false));
             this.handSwinging = false;
         }
 
-        return PlayState.CONTINUE;
+        event.getController().markNeedsReload();
+        return PlayState.STOP;
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController(this, "attackPredicate",
+                0, this::attackPredicate));
         animationData.addAnimationController(new AnimationController(this, "controller",
                 0, this::predicate));
-        animationData.addAnimationController(new AnimationController(this, "AttackController",
-                0, this::attackPredicate));
     }
 
     @Override

@@ -7,7 +7,9 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.underplayer97.ResonantEnemies.ResonantMain;
+import net.underplayer97.ResonantEnemies.entity.boss.AmalgamateEntity;
 import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
+import net.underplayer97.ResonantEnemies.entity.boss.GrimsleyEntity;
 import net.underplayer97.ResonantEnemies.entity.custom.*;
 import net.underplayer97.ResonantEnemies.entity.projectile.SpitterSpitEntity;
 
@@ -27,6 +29,16 @@ public class ModEntities {
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "erebus"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, ErebusEntity::new)
                     .dimensions(EntityDimensions.fixed(2.5f,6.0f)).build());
+
+    public static final EntityType<GrimsleyEntity> GRIMSLEY = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "grimsley"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GrimsleyEntity::new)
+                    .dimensions(EntityDimensions.fixed(4.0f,6.0f)).build());
+
+    public static final EntityType<AmalgamateEntity> AMALGAMATE = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "amalgamate"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, AmalgamateEntity::new)
+                    .dimensions(EntityDimensions.fixed(6.0f,3.0f)).build());
 
     public static final EntityType<CrowEntity> CROW = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "crow"),

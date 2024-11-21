@@ -5,3 +5,4 @@ accessible      class     net/minecraft/block/entity/BlockEntityType$BlockEntity
 accessible      class     net/minecraft/client/render/RenderLayer$MultiPhase
 accessible      class     net/minecraft/client/render/RenderLayer$MultiPhaseParameters
 accessible      method    net/minecraft/entity/projectile/ProjectileEntity                         <init>                       (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V
+accessible      method    net/minecraft/entity/data/DataTracker                                    get                          (Lnet/minecraft/entity/data/TrackedData;)Ljava/lang/Object;

@@ -43,6 +43,8 @@ public class ResonantClientMain implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.SPITTER, SpitterRenderer::new);
         EntityRendererRegistry.register(ModEntities.SPITTER_SPIT, SpitterSpitRenderer::new);
         EntityRendererRegistry.register(ModEntities.EREBUS, ErebusRenderer::new);
+        EntityRendererRegistry.register(ModEntities.AMALGAMATE, AmalgamateRenderer::new);
+        EntityRendererRegistry.register(ModEntities.GRIMSLEY, GrimsleyRenderer::new);
 
 
         //Block Entity Impl
