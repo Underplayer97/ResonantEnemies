@@ -1,10 +1,14 @@
 package net.underplayer97.ResonantEnemies.entity.boss;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -21,6 +25,8 @@ import java.awt.*;
 public class AmalgamateEntity extends AbstractBossEntity implements IAnimatable {
 
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    public int ticksSinceDeath;
+    boolean isDead = false;
 
     public AmalgamateEntity(EntityType<? extends AbstractBossEntity> entityType, World world) {
         super(entityType, world);
@@ -75,6 +81,14 @@ public class AmalgamateEntity extends AbstractBossEntity implements IAnimatable 
 
         event.getController().markNeedsReload();
         return PlayState.STOP;
+    }
+
+    @Override
+    protected void initGoals() {
+        this.goalSelector.add(1, new AttackGoal(this));
+
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+
     }
 
     @Override

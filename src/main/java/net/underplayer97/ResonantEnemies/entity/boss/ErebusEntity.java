@@ -62,17 +62,7 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
         this.setHealth(this.getMaxHealth());
     }
 
-    //TODO: Add spawn, death, attack animations. Custom beam attacks with animation setup
-
-    //public void tickMovement() {
-    //    float g;
-    //    if (this.isDead()) {
-    //        float f = (this.random.nextFloat() - 0.5F) * 8.0F;
-    //        g = (this.random.nextFloat() - 0.5F) * 4.0F;
-    //        float h = (this.random.nextFloat() - 0.5F) * 8.0F;
-    //        this.world.addParticle(ParticleTypes.EXPLOSION, this.getX() + (double)f, this.getY() + 2.0 + (double)g, this.getZ() + (double)h, 0.0, 0.0, 0.0);
-    //    }
-    //}
+    //TODO: Add spawn and attack animations. Custom beam attacks with animation setup - MIGHT NOT HAVE ENOUGH TIME
 
     public static DefaultAttributeContainer.Builder setAttributes() {
         return HostileEntity.createHostileAttributes()
@@ -93,7 +83,7 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     protected void initGoals() {
         this.goalSelector.add(1, new AttackGoal(this));
 
-        this.targetSelector.add(1, new ActiveTargetGoal<PlayerEntity>((MobEntity)this, PlayerEntity.class, true));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
 
     }
 
@@ -217,34 +207,27 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (summoned) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.spawn", false));
-            summoned = false;
+        if (isDead){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.defeat", false));
             return PlayState.CONTINUE;
 
-        }  else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0 || !summoned) {
+        } else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.move", true));
             return PlayState.CONTINUE;
         }
-        if (isDead){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.defeat", false));
-            return PlayState.STOP;
-
-        }
-
 
         event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.idle", true));
         return PlayState.CONTINUE;
     }
 
     private <T extends IAnimatable> PlayState attackPredicate(AnimationEvent<T> event) {
-        if (this.isAttacking()) {
+        if (this.handSwinging) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.slam", false));
             this.handSwinging = false;
         }
 
         event.getController().markNeedsReload();
-        return PlayState.STOP;
+        return PlayState.CONTINUE;
     }
 
     @Override

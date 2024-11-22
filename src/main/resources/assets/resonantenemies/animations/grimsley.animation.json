@@ -2282,7 +2282,7 @@
 			}
 		},
 		"animation.grimsley.defeat": {
-			"animation_length": 5.7083,
+			"animation_length": 25,
 			"bones": {
 				"Grimsley": {
 					"rotation": {

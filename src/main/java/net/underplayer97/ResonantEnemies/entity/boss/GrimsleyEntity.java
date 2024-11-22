@@ -1,10 +1,15 @@
 package net.underplayer97.ResonantEnemies.entity.boss;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.underplayer97.ResonantEnemies.entity.util.ModAttributes;
@@ -19,6 +24,8 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class GrimsleyEntity extends AbstractBossEntity implements IAnimatable {
 
+    boolean isDead = false;
+    public int ticksSinceDeath;
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public GrimsleyEntity(EntityType<? extends AbstractBossEntity> entityType, World world) {
@@ -35,6 +42,14 @@ public class GrimsleyEntity extends AbstractBossEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0f)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f);
+    }
+
+    @Override
+    protected void initGoals() {
+        this.goalSelector.add(1, new AttackGoal(this));
+
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+
     }
 
     @Override
@@ -57,8 +72,22 @@ public class GrimsleyEntity extends AbstractBossEntity implements IAnimatable {
         return null;
     }
 
+    @Override
+    protected void updatePostDeath() {
+        ++this.ticksSinceDeath;
+        this.isDead = true;
+        if (this.ticksSinceDeath == 200 && this.world instanceof ServerWorld) {
+
+            this.remove(RemovalReason.KILLED);
+        }
+    }
+
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
+        if (isDead){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grimsley.defeat", false));
+            return PlayState.CONTINUE;
+
+        } else if (this.getVelocity().getX() !=0 || this.getVelocity().getZ()!=0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grimsley.walk", true));
             return PlayState.CONTINUE;
         }
