@@ -2,16 +2,17 @@ package net.underplayer97.ResonantEnemies.entity.ai;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
+import net.underplayer97.ResonantEnemies.entity.boss.AmalgamateEntity;
+import net.underplayer97.ResonantEnemies.entity.boss.GrimsleyEntity;
 
 import java.util.EnumSet;
 
-public class ErebusAttackGoal extends Goal {
-    private final ErebusEntity entity;
+public class AmalgamateAttackGoal extends Goal {
+    private final AmalgamateEntity entity;
     private LivingEntity target;
     private final double maxSearchDistance;
 
-    public ErebusAttackGoal(ErebusEntity entity, double maxSearchDistance) {
+    public AmalgamateAttackGoal(AmalgamateEntity entity, double maxSearchDistance) {
         this.entity = entity;
         this.maxSearchDistance = maxSearchDistance;
         setControls(EnumSet.of(Control.MOVE, Control.LOOK));

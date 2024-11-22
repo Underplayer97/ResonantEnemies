@@ -21,10 +21,13 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.underplayer97.ResonantEnemies.entity.ai.ErebusAttackGoal;
@@ -44,6 +47,9 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import javax.annotation.Nullable;
+import java.util.function.Function;
+
 public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
@@ -51,8 +57,9 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     private float lastScale;
     private static final TrackedData<Integer> PRIMARY_ATTACK_COOLDOWN = DataTracker.registerData(ErebusEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> SPECIAL_ATTACK_COOLDOWN = DataTracker.registerData(ErebusEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    protected int primaryAttackDuration = 20;
-    protected int specialAttackDuration = 20;
+    public static final TrackedData<Integer> ATTACK_TYPE = DataTracker.registerData(ErebusEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public int primaryAttackDuration;
+    public int specialAttackDuration = 20;
     boolean shoot;
     boolean isDead = false;
     boolean summoned;
@@ -60,6 +67,9 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     public ErebusEntity(EntityType<? extends ErebusEntity> entityType, World world) {
         super(entityType, world);
         this.setHealth(this.getMaxHealth());
+
+        primaryAttackDuration = 10;
+
     }
 
     //TODO: Add spawn and attack animations. Custom beam attacks with animation setup - MIGHT NOT HAVE ENOUGH TIME
@@ -81,10 +91,16 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new AttackGoal(this));
+        this.goalSelector.add(1, new ErebusAttackGoal(this, 250));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
 
+    }
+
+    @Override
+    public boolean canTarget(@Nullable LivingEntity target) {
+        if (target == null) return false;
+        return super.canTarget(target);
     }
 
     @Override
@@ -92,6 +108,15 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
         super.initDataTracker();
         dataTracker.startTracking(PRIMARY_ATTACK_COOLDOWN, 0);
         dataTracker.startTracking(SPECIAL_ATTACK_COOLDOWN, 0);
+        dataTracker.startTracking(ATTACK_TYPE, 1);
+    }
+
+    public int getAttackType() {
+        return dataTracker.get(ATTACK_TYPE);
+    }
+
+    public void setAttackType(int state) {
+        dataTracker.set(ATTACK_TYPE,state);
     }
 
     public boolean isPrimaryAttack() {
@@ -157,10 +182,10 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
     public void meleeAttack(LivingEntity target) {
         setPrimaryAttackCooldown(getMaxPrimaryAttackCooldown());
-        //setAttackType(random.nextInt(3)+1)
+        setAttackType(random.nextInt(3)+1);
         if (target != null) {
             Box targetBox = target.getBoundingBox();
-            if (collides()) tryAttack(target);
+            if (doesCollide(targetBox, getBoundingBox())) tryAttack(target);
         }
     }
 
@@ -207,6 +232,7 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        event.getController().setAnimationSpeed(1);
         if (isDead){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.defeat", false));
             return PlayState.CONTINUE;
@@ -218,12 +244,16 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
         event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.idle", true));
         return PlayState.CONTINUE;
+
     }
 
     private <T extends IAnimatable> PlayState attackPredicate(AnimationEvent<T> event) {
-        if (this.handSwinging) {
+
+        if (isAttacking()) {
+            event.getController().setAnimationSpeed(2);
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.erebus.slam", false));
-            this.handSwinging = false;
+            //attacking = false;
+            //return PlayState.CONTINUE;
         }
 
         event.getController().markNeedsReload();
@@ -241,6 +271,12 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
     @Override
     public AnimationFactory getFactory() {
         return factory;
+    }
+
+    public boolean doesCollide(Box box1, Box box2) {
+        VoxelShape voxelShape = VoxelShapes.cuboid(box1);
+        VoxelShape voxelShape2 = VoxelShapes.cuboid(box2);
+        return VoxelShapes.matchesAnywhere(voxelShape2, voxelShape, BooleanBiFunction.AND);
     }
 
     //@Override

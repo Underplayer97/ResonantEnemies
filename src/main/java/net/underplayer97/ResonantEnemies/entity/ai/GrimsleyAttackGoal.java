@@ -3,15 +3,16 @@ package net.underplayer97.ResonantEnemies.entity.ai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.underplayer97.ResonantEnemies.entity.boss.ErebusEntity;
+import net.underplayer97.ResonantEnemies.entity.boss.GrimsleyEntity;
 
 import java.util.EnumSet;
 
-public class ErebusAttackGoal extends Goal {
-    private final ErebusEntity entity;
+public class GrimsleyAttackGoal extends Goal {
+    private final GrimsleyEntity entity;
     private LivingEntity target;
     private final double maxSearchDistance;
 
-    public ErebusAttackGoal(ErebusEntity entity, double maxSearchDistance) {
+    public GrimsleyAttackGoal(GrimsleyEntity entity, double maxSearchDistance) {
         this.entity = entity;
         this.maxSearchDistance = maxSearchDistance;
         setControls(EnumSet.of(Control.MOVE, Control.LOOK));
