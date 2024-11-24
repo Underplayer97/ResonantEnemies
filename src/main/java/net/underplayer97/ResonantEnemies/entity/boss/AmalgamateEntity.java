@@ -49,7 +49,7 @@ public class AmalgamateEntity extends AbstractBossEntity implements IAnimatable 
 
     public AmalgamateEntity(EntityType<? extends AbstractBossEntity> entityType, World world) {
         super(entityType, world);
-        primaryAttackDuration = 10;
+        primaryAttackDuration = 5;
 
     }
 
@@ -65,7 +65,7 @@ public class AmalgamateEntity extends AbstractBossEntity implements IAnimatable 
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0f)
                 .add(EntityAttributes.GENERIC_ARMOR, 15.0f)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0f)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0f)

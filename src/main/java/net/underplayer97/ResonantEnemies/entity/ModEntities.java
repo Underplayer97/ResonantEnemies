@@ -28,12 +28,12 @@ public class ModEntities {
     public static final EntityType<ErebusEntity> EREBUS = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "erebus"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, ErebusEntity::new)
-                    .dimensions(EntityDimensions.fixed(2.0f,6.0f)).build());
+                    .dimensions(EntityDimensions.fixed(1.5f,6.0f)).build());
 
     public static final EntityType<GrimsleyEntity> GRIMSLEY = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "grimsley"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GrimsleyEntity::new)
-                    .dimensions(EntityDimensions.fixed(3.0f,6.0f)).build());
+                    .dimensions(EntityDimensions.fixed(1.5f,5.0f)).build());
 
     public static final EntityType<AmalgamateEntity> AMALGAMATE = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(ResonantMain.MOD_ID, "amalgamate"),

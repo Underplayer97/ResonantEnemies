@@ -68,7 +68,7 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
         super(entityType, world);
         this.setHealth(this.getMaxHealth());
 
-        primaryAttackDuration = 10;
+        primaryAttackDuration = 5;
 
     }
 
@@ -76,13 +76,13 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
     public static DefaultAttributeContainer.Builder setAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0f)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 800.0f)
                 .add(EntityAttributes.GENERIC_ARMOR, 15.0f)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0f)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 25.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 2.0f)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
                 .add(ModAttributes.EREBUS_SPECIAL_ATTACK_COOLDOWN, 6.0f)
                 .add(ModAttributes.EREBUS_PRIMARY_ATTACK_COOLDOWN, 2.0f)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f);
@@ -91,7 +91,7 @@ public class ErebusEntity extends AbstractBossEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new ErebusAttackGoal(this, 250));
+        this.goalSelector.add(1, new AttackGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
 
